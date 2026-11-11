@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#10121b">
+  <title>霓虹巷戰 — Neon Alley Brawl</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 18px; color: #f7f1e8; background: radial-gradient(ellipse at 50% 0%, #272139 0, #11131c 55%, #090b11 100%); }
+    .game-shell { width: min(100%, 1000px); }
+    header { display:flex; align-items:end; justify-content:space-between; gap:16px; margin:0 2px 12px; }
+    h1 { margin:0; font-size:clamp(20px,4vw,32px); letter-spacing:.08em; }
+    .subtitle { color:#aeb3c5; font-size:13px; }
+    .hud { display:flex; gap:18px; align-items:center; flex-wrap:wrap; padding:11px 15px; background:#171a26; border:1px solid #343747; border-radius:12px 12px 0 0; font-size:14px; }
+    .hud strong { color:#ffe28a; }
+    .meter { width:120px; height:9px; display:inline-block; vertical-align:middle; overflow:hidden; background:#353747; border-radius:8px; margin-left:6px; }
+    .meter i { display:block; height:100%; width:0; background:linear-gradient(90deg,#ff9e56,#ffdc70); transition:width .15s; }
+    .stage { position:relative; border:1px solid #343747; border-top:0; overflow:hidden; background:#151927; box-shadow:0 22px 70px #0008; }
+    canvas { display:block; width:100%; aspect-ratio: 16 / 9; touch-action:none; }
+    .overlay { position:absolute; inset:0; display:grid; place-items:center; padding:20px; text-align:center; background:#0b0d16bd; backdrop-filter:blur(3px); }
+    .overlay.hidden { display:none; }
+    .card { max-width:540px; padding:clamp(20px,5vw,38px); border:1px solid #585268; border-radius:18px; background:linear-gradient(145deg,#222235f2,#141722f2); box-shadow:0 18px 55px #0008; }
+    .card h2 { margin:0 0 8px; color:#ffe28a; font-size:clamp(26px,5vw,42px); }
+    .card p { margin:8px 0 20px; color:#c5c8d4; line-height:1.75; }
+    button { border:0; color:#17131a; font:700 15px inherit; font-family:inherit; font-weight:750; cursor:pointer; }
+    .start { padding:12px 25px; border-radius:9px; background:#ffd36e; box-shadow:0 4px 0 #b7763f; }
+    .start:hover { filter:brightness(1.08); transform:translateY(-1px); }
+    .controls { display:flex; justify-content:space-between; align-items:end; gap:14px; margin-top:12px; color:#aeb3c5; font-size:12px; }
+    .touch { display:none; gap:6px; align-items:center; user-select:none; -webkit-user-select:none; }
+    .touch .cluster { display:grid; grid-template-columns:repeat(3,40px); grid-template-rows:repeat(2,38px); gap:4px; }
+    .touch button { border:1px solid #ffffff30; border-radius:8px; color:#fff; background:#24283bd9; touch-action:none; }
+    .touch button:active { background:#7665a9; }
+    .touch .up { grid-column:2; }.touch .left { grid-column:1;grid-row:2; }.touch .down { grid-column:2;grid-row:2; }.touch .right { grid-column:3;grid-row:2; }
+    .touch .actions { display:flex; gap:6px; }.touch .actions button { width:48px;height:48px; }
+    @media (pointer:coarse) { .touch { display:flex; } .controls .keys { display:none; } }
+    @media (max-width:560px) { body{padding:10px}.subtitle{display:none}.hud{gap:10px;font-size:12px;padding:9px}.meter{width:75px}.controls{margin-top:8px} }
+  </style>
+</head>
+<body>
+  <main class="game-shell">
+    <header><div><h1>霓虹巷戰</h1><div class="subtitle">NEON ALLEY BRAWL · 街頭清版動作</div></div><div class="subtitle">原創瀏覽器小遊戲</div></header>
+    <section class="hud" aria-label="遊戲狀態">
+      <span>生命 <strong id="health">❤❤❤</strong></span><span>得分 <strong id="score">0000</strong></span><span>連擊 <strong id="combo">—</strong></span><span>能量 <span class="meter"><i id="energy"></i></span></span>
+    </section>
+    <div class="stage">
+      <canvas id="game" aria-label="霓虹巷戰遊戲畫面"></canvas>
+      <div class="overlay" id="overlay"><div class="card"><h2 id="headline">霓虹巷戰</h2><p id="message">夜色降臨，街區需要你的守護。<br>打倒迎面而來的對手，連續出招累積能量！<br><small>移動：WASD／方向鍵　攻擊：J　必殺技：K</small></p><button class="start" id="start">開始遊戲</button></div></div>
+    </div>
+    <footer class="controls"><div class="keys">移動 WASD／方向鍵　 · 　J 普通攻擊　 · 　K 範圍必殺（需滿能量）</div><div class="touch" aria-label="觸控操作"><div class="cluster"><button class="up" data-key="ArrowUp">▲</button><button class="left" data-key="ArrowLeft">◀</button><button class="down" data-key="ArrowDown">▼</button><button class="right" data-key="ArrowRight">▶</button></div><div class="actions"><button data-key="j">攻擊</button><button data-key="k">必殺</button></div></div><div>建議使用鍵盤遊玩</div></footer>
+  </main>
+<script>
+(() => {
+  const canvas = document.querySelector('#game'), ctx = canvas.getContext('2d');
+  const overlay = document.querySelector('#overlay'), startButton = document.querySelector('#start');
+  const healthEl = document.querySelector('#health'), scoreEl = document.querySelector('#score'), comboEl = document.querySelector('#combo'), energyEl = document.querySelector('#energy');
+  const keys = new Set();
+  let W=800,H=450,dpr=1,last=0,mode='title',player,foes=[],particles=[],score=0,combo=0,comboTimer=0,spawned=0,shake=0,worldTime=0;
+  const TOTAL=10;
+  function resize(){ const r=canvas.getBoundingClientRect(); dpr=Math.min(devicePixelRatio||1,2); W=r.width; H=r.height; canvas.width=Math.round(W*dpr); canvas.height=Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
+  new ResizeObserver(resize).observe(canvas); resize();
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function start(){ player={x:W*.25,y:H*.68,hp:3,energy:0,face:1,attack:0,special:0,inv:0,walk:0}; foes=[];particles=[];score=0;combo=0;comboTimer=0;spawned=0;mode='playing';overlay.classList.add('hidden');last=performance.now();updateHud();requestAnimationFrame(loop); }
+  startButton.addEventListener('click',start);
+  window.addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault(); keys.add(k); if(k==='enter'&&mode!=='playing')start(); if(k==='j'||k===' ')attack();if(k==='k')special(); });
+  window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+  document.querySelectorAll('.touch [data-key]').forEach(b=>{ const k=b.dataset.key.toLowerCase(); const down=e=>{e.preventDefault();keys.add(k);if(k==='j')attack();if(k==='k')special();};const up=e=>{e.preventDefault();keys.delete(k);};b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointerleave',up);b.addEventListener('pointercancel',up); });
+  function attack(){ if(mode!=='playing'||player.attack>0)return;player.attack=.25;player.walk=0; }
+  function special(){ if(mode!=='playing'||player.energy<100||player.special>0)return;player.energy=0;player.special=.48;shake=9;foes.forEach(f=>{if(Math.hypot(f.x-player.x,(f.y-player.y)*1.25)<Math.min(W*.48,300)){f.hp-=3;f.stun=.55;f.vx=player.face*360;burst(f.x,f.y-25,'#ffc966',14);score+=100;}});updateHud(); }
+  function spawn(){ if(spawned>=TOTAL||foes.length>=4)return;const side=Math.random()<.5?-1:1;foes.push({x:side<0?-30:W+30,y:H*(.48+Math.random()*.32),hp:2,face:side<0?1:-1,attack:0,stun:0,vx:0,walk:0});spawned++; }
+  function update(dt){worldTime+=dt;if(mode!=='playing')return;player.inv=Math.max(0,player.inv-dt);player.attack=Math.max(0,player.attack-dt);player.special=Math.max(0,player.special-dt);comboTimer=Math.max(0,comboTimer-dt);if(!comboTimer)combo=0;
+    let dx=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0),dy=(keys.has('s')||keys.has('arrowdown')?1:0)-(keys.has('w')||keys.has('arrowup')?1:0);if(dx&&dy){dx*=.707;dy*=.707;}player.x=clamp(player.x+dx*220*dt,26,W-26);player.y=clamp(player.y+dy*170*dt,H*.43,H*.83);if(dx)player.face=Math.sign(dx);if(dx||dy)player.walk+=dt*12;
+    if(player.attack>.08&&player.attack<.22){foes.forEach(f=>{if(!f.hitThisSwing&&Math.abs(f.x-player.x)<78&&Math.abs(f.y-player.y)<48&&f.face===-player.face){f.hitThisSwing=true;f.hp--;f.stun=.28;f.vx=player.face*220;player.energy=clamp(player.energy+17,0,100);combo++;comboTimer=1.6;score+=100+combo*10;shake=3;burst(f.x,f.y-25,'#fff0a6',7);}});}if(player.attack===0)foes.forEach(f=>f.hitThisSwing=false);
+    if(spawned<TOTAL&&Math.random()<dt*(foes.length<2?1.0:.32))spawn();
+    foes.forEach(f=>{f.stun=Math.max(0,f.stun-dt);f.attack=Math.max(0,f.attack-dt);if(f.stun){f.x+=f.vx*dt;f.vx*=Math.pow(.03,dt);return;}const vx=player.x-f.x,vy=player.y-f.y;f.face=Math.sign(vx)||f.face; if(Math.abs(vx)>48||Math.abs(vy)>22){const len=Math.hypot(vx,vy);f.x+=vx/len*78*dt;f.y+=vy/len*58*dt;f.walk+=dt*8;}else if(f.attack===0){f.attack=.9;if(player.inv<=0){player.hp--;player.inv=.9;player.x+=f.face*25;shake=6;burst(player.x,player.y-24,'#ff7389',8);}}f.x=clamp(f.x,-15,W+15);f.y=clamp(f.y,H*.43,H*.83);});
+    foes=foes.filter(f=>{if(f.hp<=0){burst(f.x,f.y-20,'#ffb45c',10);return false;}return true;});particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=130*dt;p.life-=dt;});particles=particles.filter(p=>p.life>0);if(shake>0)shake=Math.max(0,shake-30*dt);
+    if(player.hp<=0)end(false);else if(spawned===TOTAL&&foes.length===0)end(true);updateHud();
+  }
+  function end(win){mode=win?'win':'lose';document.querySelector('#headline').textContent=win?'街區守住了！':'再接再厲！';document.querySelector('#message').innerHTML=win?`漂亮的連擊！最終得分 <b>${score}</b><br>按 Enter 或下方按鈕再玩一次。`:`你拿下了 <b>${score}</b> 分。<br>調整走位，再試一次吧！`;startButton.textContent='重新開始';overlay.classList.remove('hidden');}
+  function updateHud(){healthEl.textContent='❤'.repeat(Math.max(0,player?.hp??3))+'♡'.repeat(3-Math.max(0,player?.hp??3));scoreEl.textContent=String(score).padStart(4,'0');comboEl.textContent=combo>1?`${combo} HIT`:'—';energyEl.style.width=`${player?.energy??0}%`;}
+  function burst(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=50+Math.random()*180;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-35,life:.25+Math.random()*.35,max:.6,color});}}
+  function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
+  function drawBackground(){const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#17192a');sky.addColorStop(.58,'#313047');sky.addColorStop(.59,'#302c37');sky.addColorStop(1,'#151820');rect(0,0,W,H,sky);
+    // Neon skyline and original shopfronts
+    for(let i=0;i<9;i++){const bw=W/8+20,x=i*W/8-8, bh=H*(.24+(i*37%31)/100);rect(x,H*.58-bh,bw,bh,['#202637','#292638','#252a39'][i%3]);rect(x+5,H*.58-bh+8,bw-10,3,['#54d8ca','#ff668a','#e7b45b'][i%3]);for(let wy=H*.58-bh+20;wy<H*.56;wy+=22)for(let wx=x+12;wx<x+bw-8;wx+=22)rect(wx,wy,8,11,(i+Math.floor(wy))%3?'#d8a85c55':'#80d6d255');}
+    rect(0,H*.57,W,H*.04,'#111522');rect(0,H*.61,W,H*.39,'#25252f');
+    // pavement perspective
+    ctx.strokeStyle='#4b4650';ctx.lineWidth=1;for(let i=0;i<9;i++){let y=H*.63+i*i*H*.004;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}for(let x=-100;x<W+100;x+=120){ctx.beginPath();ctx.moveTo(W*.5+(x-W*.5)*.24,H*.61);ctx.lineTo(x,H);ctx.stroke();}
+    // signs and lanterns
+    ctx.font=`bold ${Math.max(11,W*.019)}px system-ui`;ctx.textAlign='center';[['夜市',.17,'#ff668a'],['修理舖',.49,'#7be0d2'],['小食堂',.82,'#ffc969']].forEach(([t,x,c])=>{rect(W*x-W*.055,H*.32,W*.11,H*.075,'#181824');ctx.strokeStyle=c;ctx.strokeRect(W*x-W*.055,H*.32,W*.11,H*.075);ctx.fillStyle=c;ctx.fillText(t,W*x,H*.37);});
+    for(let i=0;i<5;i++){const x=((i*203+worldTime*26)%(W+80))-40;ctx.globalAlpha=.5+.4*Math.sin(worldTime*3+i);ctx.fillStyle=i%2?'#ff648b':'#ffd178';ctx.beginPath();ctx.arc(x,H*.61,3,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}}
+  function drawFighter(o,isPlayer){const bob=(o.walk?Math.sin(o.walk)*2:0);ctx.save();ctx.translate(o.x,o.y+bob);ctx.globalAlpha=isPlayer&&player.inv>0&&Math.floor(worldTime*18)%2===0?.35:1;
+    // ground shadow
+    ctx.fillStyle='#090b12aa';ctx.beginPath();ctx.ellipse(0,0,23,8,0,0,Math.PI*2);ctx.fill();
+    const scale=isPlayer?1:.92;ctx.scale(scale,scale);const face=o.face||1;ctx.scale(face,1);
+    const attacking=isPlayer&&o.attack>0;const coat=isPlayer?'#28b7b0':'#ba5572',accent=isPlayer?'#a6fff0':'#ffd06d';
+    // legs
+    rect(-13,-30,10,26,'#24263b');rect(3,-30,10,26,'#24263b');rect(-17,-8,17,7,'#e7e5df');rect(1,-8,17,7,'#e7e5df');
+    // jacket/body/head
+    rect(-17,-63,34,35,coat);rect(-20,-52,39,7,accent);rect(-14,-83,28,21,'#d99570');rect(-16,-87,31,9,'#292438');rect(4,-76,4,3,'#18202a');
+    // arm / fist
+    if(attacking){rect(8,-59,28,10,coat);rect(29,-61,13,13,'#edc394');}else{rect(-23,-58,10,25,coat);rect(13,-58,10,25,coat);rect(-25,-36,12,10,'#edc394');rect(13,-36,12,10,'#edc394');}
+    if(isPlayer){rect(-14,-85,27,5,accent);}
+    ctx.restore();}
+  function draw(){ctx.save();if(shake)ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);drawBackground();foes.concat(mode==='playing'||mode==='title'?[player||{x:W*.25,y:H*.7,hp:3,face:1,walk:0,attack:0}]:[]).sort((a,b)=>a.y-b.y).forEach(o=>drawFighter(o,o===player));particles.forEach(p=>{ctx.globalAlpha=clamp(p.life/p.max,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,4,4);});ctx.globalAlpha=1;if(player?.special>0){ctx.strokeStyle=`rgba(255,215,112,${player.special*1.7})`;ctx.lineWidth=5;ctx.beginPath();ctx.arc(player.x,player.y-32,(.48-player.special)*600,0,Math.PI*2);ctx.stroke();}ctx.restore();}
+  function loop(now){if(mode!=='playing')return;const dt=Math.min((now-last)/1000,.033);last=now;update(dt);draw();if(mode==='playing')requestAnimationFrame(loop);else draw();}
+  player={x:W*.25,y:H*.68,hp:3,energy:0,face:1,attack:0,special:0,inv:0,walk:0};draw();updateHud();
+})();
+</script>
+</body>
+</html>
