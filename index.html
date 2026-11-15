@@ -7,41 +7,48 @@
   <title>FRONT OFFICE｜TPBL 籃球經理</title>
   <style>
     :root {
-      --bg: #0b1018;
-      --bg2: #101d2a;
-      --card: rgba(17, 28, 40, 0.9);
-      --line: rgba(160, 194, 222, 0.18);
-      --muted: #9aaec2;
-      --text: #edf4ff;
-      --gold: #e6c37f;
-      --gold-2: #d7aa5d;
-      --accent: #6fa8ff;
-      --danger: #ef6a6a;
-      --success: #76d2a3;
+      --bg-1: #07131c;
+      --bg-2: #0d1d2b;
+      --panel: rgba(18, 29, 40, 0.88);
+      --panel-2: rgba(22, 35, 50, 0.94);
+      --line: rgba(161, 196, 228, 0.18);
+      --text: #edf6ff;
+      --muted: #9fb5c6;
+      --gold: #edc77b;
+      --gold-2: #c89d49;
+      --blue: #6ea8ff;
+      --blue-2: #3d7df0;
+      --green: #7ae0a1;
+      --red: #f07b7b;
+      --shadow: 0 18px 42px rgba(0,0,0,.28);
+      --radius: 16px;
+      --radius-sm: 12px;
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans TC", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top, rgba(31,54,78,0.9), transparent 28%),
-        linear-gradient(180deg, #07121b 0%, #0a1623 40%, #09141d 100%);
-      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans TC", sans-serif;
+        radial-gradient(circle at top, rgba(46, 80, 116, 0.52), transparent 35%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
     }
+
+    a { color: inherit; }
 
     .app {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 22px 24px 40px;
+      padding: 22px 20px 36px;
     }
 
-    .top {
+    .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 18px;
     }
 
@@ -49,192 +56,152 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
     }
 
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+    .ball {
+      width: 36px;
+      height: 36px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #ff8a36, #f07b2b);
-      box-shadow: 0 0 16px rgba(237, 132, 45, 0.35);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff9b5c, #d86a26);
+      box-shadow: 0 10px 18px rgba(255, 140, 74, 0.28);
       font-size: 20px;
     }
 
-    .brand-text h1 {
+    .brand h1 {
       margin: 0;
-      font-weight: 800;
+      font-size: clamp(1.5rem, 2.5vw, 2.3rem);
       letter-spacing: 2px;
-      font-size: 2.1rem;
       line-height: 1;
     }
 
-    .brand-text small {
+    .brand small {
       display: block;
-      margin-top: 3px;
+      margin-top: 4px;
+      letter-spacing: 1.5px;
       color: var(--muted);
-      letter-spacing: 1px;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      font-size: 0.72rem;
     }
 
-    .balance {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(10, 20, 31, 0.7);
-      color: var(--gold);
-      padding: 12px 16px;
-      font-weight: 700;
-      min-width: 130px;
+    .budget {
+      min-width: 140px;
       text-align: center;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(13, 21, 31, 0.8);
+      border: 1px solid var(--line);
+      color: var(--gold);
+      font-weight: 800;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
     }
 
     .hero {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(90deg, rgba(18, 39, 56, 0.85), rgba(30, 47, 65, 0.74));
-      padding: 22px 22px 18px;
-      margin-bottom: 18px;
       position: relative;
       overflow: hidden;
+      padding: 22px 20px 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(120deg, rgba(19, 35, 52, 0.95), rgba(23, 38, 53, 0.92));
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, rgba(255,255,255,0.04), transparent 44%, rgba(255,255,255,0.02));
+      background: linear-gradient(140deg, rgba(255,255,255,0.06), transparent 28%, rgba(255,255,255,0.02));
       pointer-events: none;
     }
 
     .hero-row {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      position: relative;
-      z-index: 1;
+      gap: 14px;
     }
 
-    .label {
+    .eyebrow {
       color: var(--gold);
       letter-spacing: 2px;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      font-size: 0.82rem;
-      margin-bottom: 6px;
       font-weight: 700;
+      margin-bottom: 8px;
     }
 
     .hero h2 {
       margin: 0;
-      font-size: clamp(1.7rem, 2.6vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: 0.04em;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      line-height: 1.15;
     }
 
     .hero p {
-      margin: 0;
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .btn {
-      border: 1px solid rgba(117, 137, 160, 0.4);
-      background: rgba(26, 40, 56, 0.86);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary {
-      background: rgba(115, 154, 197, 0.2);
-      color: var(--text);
-      border-color: rgba(146, 185, 238, 0.6);
-    }
-    .btn.gold {
-      background: rgba(230, 195, 127, 0.14);
-      border-color: rgba(230, 195, 127, 0.45);
-      color: var(--gold);
-    }
-    .btn.danger {
-      background: rgba(239, 106, 106, 0.14);
-      border-color: rgba(239, 106, 106, 0.45);
-      color: #ffc5c5;
-    }
-    .btn.small {
-      padding: 7px 10px;
-      font-size: 0.75rem;
-    }
-    .btn[disabled] {
-      opacity: 0.42;
-      cursor: not-allowed;
-      transform: none;
+      font-size: 0.96rem;
     }
 
     .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
       position: relative;
       z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
     }
 
     .stat {
-      min-width: 130px;
-      flex: 1 1 130px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(14, 23, 33, 0.55);
       padding: 12px 14px 10px;
+      border-radius: 12px;
+      background: rgba(11, 20, 29, 0.58);
+      border: 1px solid var(--line);
     }
 
     .stat small {
       display: block;
       color: var(--muted);
       font-size: 0.7rem;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .stat strong {
       display: block;
-      margin-top: 6px;
-      font-size: 1.2rem;
-      color: var(--text);
+      margin-top: 7px;
+      font-size: 1.25rem;
     }
 
     .nav {
       display: flex;
-      gap: 28px;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+      padding: 0 0 10px;
       border-bottom: 1px solid var(--line);
       margin-bottom: 18px;
-      padding: 0 0 10px;
-      overflow-x: auto;
-      scrollbar-width: none;
     }
-    .nav::-webkit-scrollbar { display: none; }
 
     .nav button {
+      appearance: none;
       background: transparent;
-      border: 0;
+      border: none;
       color: var(--muted);
-      padding: 0;
-      font-size: 0.96rem;
-      cursor: pointer;
-      white-space: nowrap;
+      padding: 0 0 8px;
       position: relative;
-      padding-bottom: 8px;
+      font: inherit;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
+
     .nav button.active {
       color: var(--gold);
     }
+
     .nav button.active::after {
       content: "";
       position: absolute;
@@ -242,21 +209,21 @@
       right: 0;
       bottom: -10px;
       height: 2px;
-      background: var(--gold);
       border-radius: 2px;
+      background: var(--gold);
     }
 
     .view {
-      min-height: 250px;
+      min-height: 260px;
     }
 
     .card {
-      background: rgba(17, 27, 38, 0.78);
+      background: rgba(15, 24, 34, 0.82);
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 18px;
       margin-bottom: 16px;
-      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
     }
 
     .card-head {
@@ -264,118 +231,175 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    .card h3 {
+    .card-head h3 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1.06rem;
     }
 
     .muted { color: var(--muted); }
     .gold { color: var(--gold); }
+    .green { color: var(--green); }
+    .red { color: var(--red); }
 
-    .notice {
-      background: rgba(23, 36, 49, 0.8);
-      border: 1px solid rgba(121, 146, 168, 0.28);
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(129, 154, 181, 0.38);
+      background: rgba(23, 35, 49, 0.9);
+      color: var(--text);
       border-radius: 10px;
-      padding: 12px 14px;
-      color: #dfeaf9;
-      margin-bottom: 12px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
     }
 
-    .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .between { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.gold {
+      background: rgba(237, 199, 123, 0.12);
+      border-color: rgba(237, 199, 123, 0.46);
+      color: var(--gold);
+    }
+    .btn.red {
+      background: rgba(240, 123, 123, 0.12);
+      border-color: rgba(240, 123, 123, 0.42);
+      color: #ffc1c1;
+    }
+    .btn.blue {
+      background: rgba(110, 168, 255, 0.12);
+      border-color: rgba(110, 168, 255, 0.42);
+      color: #dfeeff;
+    }
+    .btn.small {
+      padding: 7px 10px;
+      font-size: 0.8rem;
+    }
+    .btn[disabled] {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .notice {
+      background: rgba(20, 33, 44, 0.82);
+      border: 1px solid rgba(140, 166, 188, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #dfeaf4;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .between { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 
     .podium {
       display: grid;
       grid-template-columns: repeat(5, minmax(120px, 1fr));
-      gap: 8px;
-      margin-top: 12px;
+      gap: 10px;
     }
 
     .slot {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: rgba(12, 20, 30, 0.75);
-      padding: 10px 8px;
+      padding: 12px 10px;
+      border-radius: 12px;
       text-align: center;
+      background: rgba(9, 16, 25, 0.78);
+      border: 1px solid var(--line);
     }
-    .slot strong { display: block; font-size: 0.92rem; }
-    .slot small { display: block; color: var(--muted); margin-top: 4px; }
 
-    .roster-list, .history-list, .standings-list, .market-list {
+    .slot strong { display: block; }
+    .slot small { color: var(--muted); display: block; margin-top: 5px; }
+
+    .list {
       display: grid;
       gap: 10px;
     }
 
-    .player-row, .history-row, .standings-row, .market-row {
+    .entry {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .player-row:last-child, .history-row:last-child, .standings-row:last-child, .market-row:last-child {
-      border-bottom: 0;
-    }
+    .entry:last-child { border-bottom: 0; }
 
     .player-main {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
+    }
+
+    .ovr {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--gold);
+      background: rgba(237, 199, 123, 0.12);
+      border: 1px solid rgba(237, 199, 123, 0.38);
+      flex-shrink: 0;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 5px 8px;
+      padding: 4px 8px;
+      margin-left: 8px;
       border-radius: 999px;
-      font-size: 11px;
-      border: 1px solid rgba(230, 195, 127, 0.5);
-      color: var(--gold);
-      background: rgba(230, 195, 127, 0.08);
-      margin-left: 6px;
-    }
-
-    .rating {
-      color: var(--gold);
-      font-weight: 800;
-      font-size: 1.1rem;
+      background: rgba(110,168,255,0.12);
+      color: #d8edff;
+      border: 1px solid rgba(110,168,255,0.32);
+      font-size: 0.68rem;
+      font-weight: 700;
     }
 
     .small-note {
       display: block;
+      margin-top: 4px;
       color: var(--muted);
-      font-size: 0.74rem;
-      margin-top: 3px;
+      font-size: 0.76rem;
     }
 
     .empty {
       color: var(--muted);
-      padding: 18px 10px;
       text-align: center;
+      padding: 18px 12px;
     }
 
     .modal-bg {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.64);
+      background: rgba(0,0,0,.62);
       display: grid;
       place-items: center;
       padding: 20px;
-      z-index: 40;
+      z-index: 50;
     }
 
     .modal {
       width: min(420px, 100%);
-      background: rgba(18, 28, 38, 0.95);
+      background: rgba(17, 29, 40, 0.98);
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
     }
 
     .modal label {
@@ -387,79 +411,79 @@
 
     .modal input, .modal select {
       width: 100%;
-      padding: 10px 11px;
-      border-radius: 8px;
-      border: 1px solid var(--line);
-      background: rgba(10, 18, 29, 0.9);
+      padding: 10px 12px;
+      background: rgba(8, 16, 23, 0.9);
       color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 10px;
       font: inherit;
       outline: none;
     }
 
     .modal-actions {
-      margin-top: 16px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
+      margin-top: 18px;
     }
 
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 22px;
+      bottom: 24px;
       transform: translateX(-50%);
-      background: rgba(240, 245, 250, 0.96);
-      color: #111827;
-      border-radius: 9px;
       padding: 10px 16px;
-      z-index: 50;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.32);
+      border-radius: 10px;
+      background: rgba(245,247,250,0.96);
+      color: #14212d;
+      box-shadow: var(--shadow);
       font-weight: 700;
+      z-index: 70;
     }
 
     @media (max-width: 760px) {
       .app { padding: 16px 12px 28px; }
-      .top { align-items: flex-start; }
-      .brand-text h1 { font-size: 1.5rem; }
+      .topbar { align-items: flex-start; }
       .hero-row { flex-direction: column; align-items: flex-start; }
+      .stats { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
       .podium { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
-      .nav { gap: 18px; }
+      .entry { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <header class="top">
+    <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">🏀</div>
-        <div class="brand-text">
+        <div class="ball">🏀</div>
+        <div>
           <h1>FRONT OFFICE</h1>
-          <small>TPBL · BUILD YOUR DYNASTY</small>
+          <small>TPBL · Dynasty Manager</small>
         </div>
       </div>
-      <div id="budgetBox" class="balance">預算 30.0M</div>
+      <div id="budgetBox" class="budget">預算 30.0M</div>
     </header>
 
     <section class="hero">
       <div class="hero-row">
         <div>
-          <div class="label">Your Franchise · Manager Mode</div>
+          <div class="eyebrow">Your Franchise · Manager Mode</div>
           <h2 id="teamName">臺北台新戰神</h2>
-          <p id="teamMeta">總經理 · 第 1 / 20 季</p>
+          <p id="teamMeta">總經理 • 第 1 / 20 季</p>
         </div>
         <button id="settingsBtn" class="btn gold">⚙ 球隊設定</button>
       </div>
-      <div id="statRow" class="stats"></div>
+      <div id="stats" class="stats"></div>
     </section>
 
     <nav class="nav" id="navBar">
-      <button class="active" data-page="home">總覽</button>
-      <button data-page="roster">球員名單</button>
-      <button data-page="standings">排名與季後賽</button>
-      <button data-page="awards">年度獎項</button>
-      <button data-page="history">球隊紀錄</button>
-      <button data-page="market">球員市場</button>
-      <button data-page="draft">選秀</button>
+      <button type="button" class="active" data-page="home">總覽</button>
+      <button type="button" data-page="roster">球員名單</button>
+      <button type="button" data-page="standings">排名</button>
+      <button type="button" data-page="awards">獎項</button>
+      <button type="button" data-page="history">紀錄</button>
+      <button type="button" data-page="market">市場</button>
+      <button type="button" data-page="draft">選秀</button>
     </nav>
 
     <main id="view" class="view"></main>
@@ -469,10 +493,8 @@
     (() => {
       'use strict';
 
-      const STORAGE_KEY = 'front-office-tpbl-fixed-v1';
-      const MAX_SEASONS = 20;
-      const REGULAR_GAMES = 40;
-      const TEAMS = [
+      const STORAGE_KEY = 'front-office-tpbl-optimized-v1';
+      const TEAM_NAMES = [
         '桃園台啤永豐雲豹',
         '福爾摩沙台新夢想家',
         '新北國王',
@@ -483,7 +505,7 @@
       ];
 
       const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C'];
-      const TEAM_ROSTER_DATA = {
+      const PLAYER_NAMES = {
         '桃園台啤永豐雲豹': ['曹薰襄', '呂濟而', '劉元凱', '高錦瑋', '徐宏瑋', '汪哲宇', '丁冠皓', '莊博元', '林信寬', '王皓吉', '黃鎮', '董永全'],
         '福爾摩沙台新夢想家': ['盧冠良', '蔣淯安', '周柏臣', '陳振傑', '馬建豪', '張宗憲', '吳家駿', '林俊吉', '簡偉儒', '忻沃克', '李德威', '史承平'],
         '新北國王': ['林書緯', '蘇培凱', '鍾理翔', '李愷諺', '簡祐哲', '王柏智', '林彥廷', '呂政儒', '蘇士軒', '林金榜', '熊祥泰', '喬納森'],
@@ -493,164 +515,143 @@
         '高雄全家海神': ['余純安', '廖偉皓', '吳曉謹', '陳懷安', '勤明慶', '魏莨哲', '于煥亞', '邱子軒', '唐維傑', '胡瓏貿', '施晉堯', '呂威霆']
       };
 
-      const state = loadState();
       let toastTimer = null;
+      let currentPage = 'home';
 
-      function safeText(value) {
-        return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+      function safeHtml(value) {
+        return String(value ?? '').replace(/[&<>"]|'/g, (char) => ({
           '&': '&amp;',
           '<': '&lt;',
           '>': '&gt;',
           '"': '&quot;',
           "'": '&#39;'
-        }[ch]));
+        }[char]));
       }
 
-      function clamp(n, min, max) {
-        return Math.min(max, Math.max(min, n));
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
       }
 
-      function makePlayer(name, team, idx) {
-        const baseRating = 64 + (idx * 9 + team.length * 3) % 22;
-        return {
-          id: `${team}-${idx}-${Math.random().toString(36).slice(2, 8)}`,
+      function todayText() {
+        return new Date().toLocaleDateString('zh-TW');
+      }
+
+      function buildTeamRoster(teamName) {
+        return (PLAYER_NAMES[teamName] || []).map((name, index) => ({
+          id: `${teamName}-${index}-${Math.random().toString(36).slice(2, 8)}`,
           name,
-          team,
-          pos: POSITIONS[(idx + team.length) % POSITIONS.length],
-          age: 20 + (idx * 4 + team.length) % 13,
-          rating: baseRating,
-          potential: clamp(baseRating + 8 + (idx % 6), 70, 99),
-          salary: 4 + ((idx * 3 + team.length) % 10),
+          team: teamName,
+          pos: POSITIONS[(index + teamName.length) % POSITIONS.length],
+          age: 20 + ((index * 3 + teamName.length) % 11),
+          rating: 68 + ((index * 7 + teamName.length) % 20),
+          potential: 75 + ((index * 5 + teamName.length) % 18),
+          salary: 4 + ((index * 3 + teamName.length) % 10),
           starter: false,
           stats: { games: 0, points: 0 }
-        };
-      }
-
-      function createTeamRoster(teamName, includeUserTeam = false) {
-        const list = TEAM_ROSTER_DATA[teamName] || [];
-        return list.map((name, idx) => makePlayer(name, teamName, idx));
-      }
-
-      function defaultStandings() {
-        const obj = {};
-        TEAMS.forEach((team) => { obj[team] = { wins: 0, losses: 0, games: 0 }; });
-        return obj;
+        }));
       }
 
       function freshState() {
         const rosters = {};
-        TEAMS.forEach((team) => { rosters[team] = createTeamRoster(team); });
-        const myTeam = '臺北台新戰神';
-        rosters[myTeam].slice(0, 5).forEach((p) => p.starter = true);
+        TEAM_NAMES.forEach((team) => {
+          rosters[team] = buildTeamRoster(team);
+        });
+
+        const team = '臺北台新戰神';
+        rosters[team].slice(0, 5).forEach((player) => player.starter = true);
 
         return {
-          team: myTeam,
+          team,
           manager: '總經理',
           season: 1,
           wins: 0,
           losses: 0,
           games: 0,
           budget: 30,
-          history: [{ text: '球隊成立，王朝之路正式開始。', date: formattedToday() }],
-          standings: defaultStandings(),
+          standings: Object.fromEntries(TEAM_NAMES.map((teamName) => [teamName, { wins: 0, losses: 0, games: 0 }])),
           rosters,
-          postseason: null,
+          history: [{ text: '球隊成立，王朝之路正式開始。', date: todayText() }],
           awards: [],
+          postseason: null,
           draft: null
         };
-      }
-
-      function cloneRosterList(list) {
-        return list.map((player) => ({
-          ...player,
-          stats: { ...player.stats }
-        }));
       }
 
       function normalizeState(raw) {
         const base = freshState();
         if (!raw) return base;
 
-        const state = {
+        const next = {
           ...base,
           ...raw,
           standings: { ...base.standings, ...(raw.standings || {}) },
           rosters: {}
         };
 
-        TEAMS.forEach((team) => {
-          const rawRoster = Array.isArray(raw.rosters && raw.rosters[team]) ? raw.rosters[team] : createTeamRoster(team);
-          state.rosters[team] = rawRoster.map((p, idx) => ({
-            id: p.id || `${team}-${idx}`,
-            name: p.name || TEAM_ROSTER_DATA[team][idx] || `球員${idx + 1}`,
+        TEAM_NAMES.forEach((team) => {
+          const source = Array.isArray(raw?.rosters?.[team]) ? raw.rosters[team] : buildTeamRoster(team);
+          next.rosters[team] = source.map((player, index) => ({
+            id: player.id || `${team}-${index}-${Math.random().toString(36).slice(2, 8)}`,
+            name: player.name || (PLAYER_NAMES[team] || [])[index] || `球員${index + 1}`,
             team,
-            pos: p.pos || POSITIONS[(idx + team.length) % POSITIONS.length],
-            age: Number(p.age) || 20 + (idx % 12),
-            rating: Number(p.rating) || 70,
-            potential: Number(p.potential) || 84,
-            salary: Number(p.salary) || 6,
-            starter: !!p.starter,
-            stats: { games: Number(p.stats?.games) || 0, points: Number(p.stats?.points) || 0 }
+            pos: player.pos || POSITIONS[(index + team.length) % POSITIONS.length],
+            age: Number(player.age) || 20 + ((index * 3 + team.length) % 11),
+            rating: Number(player.rating) || 70,
+            potential: Number(player.potential) || 80,
+            salary: Number(player.salary) || 5,
+            starter: !!player.starter,
+            stats: {
+              games: Number(player.stats?.games) || 0,
+              points: Number(player.stats?.points) || 0
+            }
           }));
         });
 
-        state.team = TEAMS.includes(raw.team) ? raw.team : base.team;
-        state.manager = raw.manager || '總經理';
-        state.season = clamp(Number(raw.season) || 1, 1, MAX_SEASONS);
-        state.wins = Number(raw.wins) || 0;
-        state.losses = Number(raw.losses) || 0;
-        state.games = Number(raw.games) || 0;
-        state.budget = Number(raw.budget) || 30;
-        state.history = Array.isArray(raw.history) && raw.history.length ? raw.history : base.history;
-        state.awards = Array.isArray(raw.awards) ? raw.awards : [];
-        state.postseason = raw.postseason || null;
-        state.draft = raw.draft || null;
+        next.team = TEAM_NAMES.includes(raw.team) ? raw.team : base.team;
+        next.manager = raw.manager || '總經理';
+        next.season = clamp(Number(raw.season) || 1, 1, 20);
+        next.wins = Number(raw.wins) || 0;
+        next.losses = Number(raw.losses) || 0;
+        next.games = Number(raw.games) || 0;
+        next.budget = Number(raw.budget) || 30;
+        next.history = Array.isArray(raw.history) && raw.history.length ? raw.history : base.history;
+        next.awards = Array.isArray(raw.awards) ? raw.awards : [];
+        next.postseason = raw.postseason || null;
+        next.draft = raw.draft || null;
+        return next;
+      }
 
-        // ensure my team roster always exists and is starterable
-        const roster = state.rosters[state.team];
-        if (!Array.isArray(roster) || roster.length === 0) {
-          state.rosters[state.team] = createTeamRoster(state.team);
+      const state = loadState();
+
+      function loadState() {
+        try {
+          const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          return normalizeState(raw);
+        } catch (error) {
+          return freshState();
         }
-
-        return state;
       }
 
       function saveState() {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           return true;
-        } catch (e) {
-          toast('儲存失敗，請檢查瀏覽器空間。');
+        } catch (error) {
+          toast('儲存失敗，請確認瀏覽器空間。');
           return false;
         }
       }
 
-      function loadState() {
-        try {
-          const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-          return normalizeState(raw);
-        } catch (e) {
-          return freshState();
-        }
-      }
-
-      function formattedToday() {
-        return new Date().toLocaleDateString('zh-TW');
-      }
-
-      function toast(msg) {
-        const node = document.getElementById('toast');
-        if (node) node.remove();
-        const el = document.createElement('div');
-        el.id = 'toast';
-        el.className = 'toast';
-        el.textContent = msg;
-        document.body.appendChild(el);
+      function toast(message) {
+        const existing = document.getElementById('toast');
+        if (existing) existing.remove();
+        const node = document.createElement('div');
+        node.id = 'toast';
+        node.className = 'toast';
+        node.textContent = message;
+        document.body.appendChild(node);
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-          const t = document.getElementById('toast');
-          if (t) t.remove();
-        }, 2200);
+        toastTimer = setTimeout(() => node.remove(), 2200);
       }
 
       function getRoster(team = state.team) {
@@ -658,51 +659,49 @@
       }
 
       function getStarters(team = state.team) {
-        return getRoster(team).filter((p) => p.starter);
+        return getRoster(team).filter((player) => player.starter);
       }
 
       function overall(players = getStarters()) {
         if (!players.length) return 0;
-        return Math.round(players.reduce((sum, p) => sum + p.rating, 0) / players.length);
-      }
-
-      function logEvent(text) {
-        state.history.unshift({ text, date: formattedToday() });
-        if (state.history.length > 80) state.history.length = 80;
+        return Math.round(players.reduce((sum, player) => sum + Number(player.rating || 0), 0) / players.length);
       }
 
       function buildStandings() {
-        const standings = defaultStandings();
-        for (const team of TEAMS) {
-          const s = state.standings[team] || { wins: 0, losses: 0, games: 0 };
-          standings[team] = {
-            wins: Number(s.wins) || 0,
-            losses: Number(s.losses) || 0,
-            games: Number(s.games) || 0
+        const entries = TEAM_NAMES.map((team) => {
+          const record = state.standings?.[team] || { wins: 0, losses: 0, games: 0 };
+          return {
+            team,
+            wins: Number(record.wins) || 0,
+            losses: Number(record.losses) || 0,
+            games: Number(record.games) || 0
           };
-        }
-        return Object.entries(standings)
-          .map(([team, value]) => ({ team, ...value }))
-          .sort((a, b) => b.wins - a.wins || a.losses - b.losses || TEAMS.indexOf(a.team) - TEAMS.indexOf(b.team));
+        }).sort((a, b) => b.wins - a.wins || a.losses - b.losses || TEAM_NAMES.indexOf(a.team) - TEAM_NAMES.indexOf(b.team));
+        return entries;
       }
 
-      function rankFor(team) {
-        return buildStandings().findIndex((row) => row.team === team) + 1;
+      function rankOf(team) {
+        const index = buildStandings().findIndex((entry) => entry.team === team);
+        return index >= 0 ? index + 1 : 0;
       }
 
-      function renderStats() {
-        const budget = document.getElementById('budgetBox');
-        const teamName = document.getElementById('teamName');
-        const teamMeta = document.getElementById('teamMeta');
-        const statRow = document.getElementById('statRow');
+      function logEvent(text) {
+        state.history.unshift({ text, date: todayText() });
+        if (state.history.length > 60) state.history.length = 60;
+      }
 
-        budget.textContent = `預算 ${state.budget.toFixed(1)}M`;
-        teamName.textContent = state.team;
-        teamMeta.textContent = `總經理 ${state.manager} · 第 ${state.season}/${MAX_SEASONS} 季`;
+      function renderStatsBar() {
+        const statDiv = document.getElementById('stats');
+        const teamNameEl = document.getElementById('teamName');
+        const teamMetaEl = document.getElementById('teamMeta');
+        const budgetBox = document.getElementById('budgetBox');
 
-        const standings = buildStandings();
-        const myRank = rankFor(state.team);
-        statRow.innerHTML = `
+        teamNameEl.textContent = state.team;
+        teamMetaEl.textContent = `總經理 ${state.manager} • 第 ${state.season} / 20 季`;
+        budgetBox.textContent = `預算 ${state.budget.toFixed(1)}M`;
+
+        const myRank = rankOf(state.team);
+        statDiv.innerHTML = `
           <div class="stat"><small>先發戰力</small><strong>${overall()} OVR</strong></div>
           <div class="stat"><small>本季戰績</small><strong>${state.wins}-${state.losses}</strong></div>
           <div class="stat"><small>聯盟排名</small><strong>第 ${myRank} 名</strong></div>
@@ -713,20 +712,21 @@
       function renderHome() {
         const starters = getStarters();
         const standings = buildStandings();
+        const topFive = standings.slice(0, 5);
 
         return `
           <div class="card">
             <div class="card-head">
               <h3>例行賽</h3>
-              <span class="muted">${state.games}/${REGULAR_GAMES} 場</span>
+              <span class="muted">${state.games}/40 場</span>
             </div>
             <div class="notice">
-              先發陣容 ${starters.length}/5。五位先發才能進行比賽；例行賽結束後依排名進入季後賽。
+              先發 5 人固定出賽，進行 40 場例行賽。整體戰力與球隊防守能量將決定你能否在季後賽衝擊冠軍。
             </div>
             <div class="row">
-              <button class="btn gold" data-action="play-game" ${starters.length !== 5 || state.games >= REGULAR_GAMES ? 'disabled' : ''}>🏀 進行下一場</button>
-              <button class="btn secondary" data-page="standings">查看排名</button>
-              <button class="btn danger" data-action="restart">重新開始</button>
+              <button type="button" class="btn gold" data-action="play-game" ${starters.length !== 5 || state.games >= 40 ? 'disabled' : ''}>🏀 進行下一場</button>
+              <button type="button" class="btn blue" data-page="standings">查看排名</button>
+              <button type="button" class="btn red" data-action="restart">重新開始</button>
             </div>
           </div>
 
@@ -737,12 +737,12 @@
             </div>
             <div class="podium">
               ${POSITIONS.map((pos, idx) => {
-                const p = starters[idx];
+                const player = starters[idx];
                 return `
                   <div class="slot">
                     <strong>${pos}</strong>
-                    <small>${p ? p.name : '待安排'}</small>
-                    ${p ? `<small>${p.rating} OVR</small>` : ''}
+                    <small>${player ? player.name : '待安排'}</small>
+                    ${player ? `<small>${player.rating} OVR</small>` : ''}
                   </div>
                 `;
               }).join('')}
@@ -753,11 +753,11 @@
             <div class="card-head">
               <h3>聯盟戰績</h3>
             </div>
-            <div class="standings-list">
-              ${standings.map((row, idx) => `
-                <div class="standings-row">
+            <div class="list">
+              ${topFive.map((row, index) => `
+                <div class="entry">
                   <div>
-                    <strong>${idx + 1}. ${safeText(row.team)}</strong>
+                    <strong>${index + 1}. ${safeHtml(row.team)}</strong>
                     ${row.team === state.team ? '<span class="badge">我的球隊</span>' : ''}
                   </div>
                   <strong>${row.wins}-${row.losses}</strong>
@@ -773,27 +773,27 @@
         return `
           <div class="card">
             <div class="card-head">
-              <h3>${safeText(state.team)} · 固定球員名單</h3>
-              <span class="muted">最多 15 人</span>
+              <h3>${safeHtml(state.team)} 球員名單</h3>
+              <span class="muted">${roster.length}/15</span>
             </div>
-            <div class="roster-list">
+            <div class="list">
               ${roster.map((player) => `
-                <div class="player-row">
+                <div class="entry">
                   <div class="player-main">
-                    <div class="rating">${player.rating}</div>
+                    <div class="ovr">${player.rating}</div>
                     <div>
-                      <strong>${safeText(player.name)}</strong>
-                      <span class="small-note">${safeText(player.pos)} · ${player.age}歲 · ${player.team === state.team ? '自有球隊' : player.team}</span>
+                      <strong>${safeHtml(player.name)}</strong>
+                      <span class="small-note">${safeHtml(player.pos)} • ${player.age}歲 • ${player.starter ? '先發' : '替補'}</span>
                     </div>
                   </div>
                   <div class="row">
-                    <button class="btn small ${player.starter ? 'gold' : ''}" data-action="toggle-starter" data-player-id="${player.id}" ${player.starter && getStarters().length <= 5 ? 'disabled' : ''}>
-                      ${player.starter ? '改成替補' : '設為先發'}
+                    <button type="button" class="btn small ${player.starter ? 'gold' : ''}" data-action="toggle-starter" data-player-id="${player.id}" ${getStarters().length >= 5 && !player.starter ? 'disabled' : ''}>
+                      ${player.starter ? '改為替補' : '設為先發'}
                     </button>
-                    <button class="btn small danger" data-action="release-player" data-player-id="${player.id}" ${roster.length <= 5 ? 'disabled' : ''}>釋出</button>
+                    <button type="button" class="btn small red" data-action="release-player" data-player-id="${player.id}" ${roster.length <= 5 ? 'disabled' : ''}>釋出</button>
                   </div>
                 </div>
-              `).join('') || '<div class="empty">目前未有球員</div>'}
+              `).join('') || '<div class="empty">目前沒有球員資料</div>'}
             </div>
           </div>
         `;
@@ -801,26 +801,21 @@
 
       function renderStandings() {
         const standings = buildStandings();
-        const topThree = standings.slice(0, 3).map((r) => r.team);
-        const challengeTeams = standings.slice(3, 5).map((r) => r.team);
         return `
           <div class="card">
             <div class="card-head">
-              <h3>排位與季後賽</h3>
+              <h3>聯盟排名</h3>
+              <span class="muted">例行賽 40 場</span>
             </div>
-            <div class="notice">
-              例行賽 40 場後，排名 1–3 名直接晉級季後賽；4–5 名進行三戰兩勝挑戰賽；季後賽採 7 戰 4 勝制。
-            </div>
-            <div class="standings-list">
-              ${standings.map((row, idx) => `
-                <div class="standings-row">
+            <div class="list">
+              ${standings.map((entry, index) => `
+                <div class="entry">
                   <div>
-                    <strong>${idx + 1}. ${safeText(row.team)}</strong>
-                    ${topThree.includes(row.team) ? '<span class="badge">直晉</span>' : ''}
-                    ${challengeTeams.includes(row.team) ? '<span class="badge">挑戰賽</span>' : ''}
-                    ${row.team === state.team ? '<span class="badge">我的球隊</span>' : ''}
+                    <strong>${index + 1}. ${safeHtml(entry.team)}</strong>
+                    ${entry.team === state.team ? '<span class="badge">我的球隊</span>' : ''}
+                    ${index < 3 ? '<span class="badge">季後賽</span>' : ''}
                   </div>
-                  <strong>${row.wins}-${row.losses}</strong>
+                  <strong>${entry.wins}-${entry.losses}</strong>
                 </div>
               `).join('')}
             </div>
@@ -829,98 +824,96 @@
           <div class="card">
             <div class="card-head">
               <h3>季後賽</h3>
-              <button class="btn small gold" data-action="start-playoffs" ${state.games < REGULAR_GAMES ? 'disabled' : ''}>開始季後賽</button>
+              <button type="button" class="btn small gold" data-action="start-playoffs" ${state.games < 40 ? 'disabled' : ''}>開始季後賽</button>
             </div>
-            ${state.postseason ? renderPlayoffBracket() : '<div class="empty">例行賽尚未結束，季後賽分組表將在 40 場後出現。</div>'}
+            ${state.postseason ? renderPlayoffBlock() : '<div class="empty">例行賽尚未結束，季後賽入口將在 40 場後開放。</div>'}
           </div>
         `;
       }
 
-      function renderPlayoffBracket() {
-        const p = state.postseason;
-        if (!p) return '';
-
-        if (p.champion) {
-          return `<div class="notice">🏆 ${safeText(p.champion)} 取得總冠軍。</div>`;
+      function renderPlayoffBlock() {
+        if (!state.postseason || !state.postseason.challenge) {
+          return '<div class="empty">目前沒有季後賽資訊</div>';
         }
 
-        const challenge = p.challenge || null;
-        const semiBlocks = p.semis || [];
-        const finals = p.final || null;
-
-        const blocks = [];
-        if (challenge) {
-          blocks.push(`<div class="card"><h3>挑戰賽</h3><div class="standings-list"><div class="standings-row"><div>${safeText(challenge.a)}</div><strong>${challenge.aw}-${challenge.bw}</strong></div><div class="standings-row"><div>${safeText(challenge.b)}</div><strong>${challenge.bw}-${challenge.aw}</strong></div></div></div>`);
-        }
-        semiBlocks.forEach((match, idx) => {
-          blocks.push(`<div class="card"><h3>準決賽 ${idx + 1}</h3><div class="standings-list"><div class="standings-row"><div>${safeText(match.a)}</div><strong>${match.aw}-${match.bw}</strong></div><div class="standings-row"><div>${safeText(match.b)}</div><strong>${match.bw}-${match.aw}</strong></div></div></div>`);
-        });
-        if (finals) {
-          blocks.push(`<div class="card"><h3>總冠軍賽</h3><div class="standings-list"><div class="standings-row"><div>${safeText(finals.a)}</div><strong>${finals.aw}-${finals.bw}</strong></div><div class="standings-row"><div>${safeText(finals.b)}</div><strong>${finals.bw}-${finals.aw}</strong></div></div></div>`);
-        }
-
-        return `<div class="notice">模擬季後賽：三戰兩勝挑戰賽、準決賽與總冠軍賽皆為七戰四勝。</div>${blocks.join('')}`;
+        const challenge = state.postseason.challenge;
+        return `
+          <div class="list">
+            <div class="entry">
+              <div><strong>挑戰賽</strong><span class="small-note">${safeHtml(challenge.a)} vs ${safeHtml(challenge.b)}</span></div>
+              <strong>${challenge.aw}-${challenge.bw}</strong>
+            </div>
+            <div class="entry">
+              <div><strong>準決賽</strong><span class="small-note">${safeHtml(state.postseason.semis?.[0]?.a || '待定')} vs ${safeHtml(state.postseason.semis?.[0]?.b || '待定')}</span></div>
+              <strong>${state.postseason.semis?.[0]?.aw ?? 0}-${state.postseason.semis?.[0]?.bw ?? 0}</strong>
+            </div>
+            <div class="entry">
+              <div><strong>總冠軍賽</strong><span class="small-note">${safeHtml(state.postseason.final?.a || '待定')} vs ${safeHtml(state.postseason.final?.b || '待定')}</span></div>
+              <strong>${state.postseason.final?.aw ?? 0}-${state.postseason.final?.bw ?? 0}</strong>
+            </div>
+          </div>
+        `;
       }
 
       function renderAwards() {
-        const awards = state.awards.slice().reverse();
         return `
           <div class="card">
             <div class="card-head"><h3>年度獎項</h3></div>
-            ${awards.length ? awards.map((award) => `
+            ${state.awards.length ? state.awards.map((award) => `
               <div class="notice">
                 <strong>第 ${award.season} 季</strong><br />
-                冠軍：${safeText(award.champion)}<br />
-                MVP：${safeText(award.mvp.name)} · ${award.mvp.ppg} PPG<br />
-                最佳防守：${safeText(award.dopy.name)}<br />
-                最佳新秀：${safeText(award.roy.name)}
+                冠軍：${safeHtml(award.champion)}<br />
+                MVP：${safeHtml(award.mvp.name)} • ${award.mvp.ppg ?? '0.0'} PPG<br />
+                最佳防守：${safeHtml(award.dopy.name)}<br />
+                最佳新秀：${safeHtml(award.roy.name)}
               </div>
-            `).join('') : '<div class="empty">本季尚未產生獎項，冠軍定出後會顯示。</div>'}
+            `).join('') : '<div class="empty">目前還沒有獎項資料。</div>'}
           </div>
         `;
       }
 
       function renderHistory() {
-        const rows = state.history;
         return `
           <div class="card">
             <div class="card-head"><h3>球隊紀錄</h3></div>
-            <div class="history-list">
-              ${rows.map((item) => `
-                <div class="history-row">
-                  <div>${safeText(item.text)}</div>
-                  <small class="muted">${safeText(item.date)}</small>
+            <div class="list">
+              ${state.history.map((item) => `
+                <div class="entry">
+                  <div>
+                    <strong>${safeHtml(item.text)}</strong>
+                  </div>
+                  <span class="muted">${safeHtml(item.date)}</span>
                 </div>
-              `).join('') || '<div class="empty">目前沒有紀錄。</div>'}
+              `).join('') || '<div class="empty">沒有紀錄</div>'}
             </div>
           </div>
         `;
       }
 
       function renderMarket() {
-        const myRoster = getRoster();
-        const usedNames = new Set(myRoster.map((p) => p.name));
-        const pool = TEAMS.flatMap((team) => {
-          if (team === state.team) return [];
-          return getRoster(team).filter((p) => !usedNames.has(p.name)).slice(0, 6);
-        });
+        const pool = TEAM_NAMES.filter((team) => team !== state.team)
+          .flatMap((team) => getRoster(team).map((player) => ({ ...player, sourceTeam: team })))
+          .slice(0, 18);
 
         return `
           <div class="card">
-            <div class="card-head"><h3>TPBL 球員市場</h3><span class="muted">從其他球隊補強</span></div>
-            <div class="market-list">
+            <div class="card-head">
+              <h3>球員市場</h3>
+              <span class="muted">補強戰力</span>
+            </div>
+            <div class="list">
               ${pool.map((player) => `
-                <div class="market-row">
-                  <div>
-                    <strong>${safeText(player.name)}</strong>
-                    <span class="small-note">${safeText(player.team)} · ${safeText(player.pos)} · ${player.age}歲 · 薪資 ${player.salary}M</span>
+                <div class="entry">
+                  <div class="player-main">
+                    <div class="ovr">${player.rating}</div>
+                    <div>
+                      <strong>${safeHtml(player.name)}</strong>
+                      <span class="small-note">${safeHtml(player.sourceTeam)} • ${safeHtml(player.pos)} • ${player.age}歲 • 薪資 ${player.salary}M</span>
+                    </div>
                   </div>
-                  <div class="row">
-                    <span class="rating">${player.rating}</span>
-                    <button class="btn small gold" data-action="sign-player" data-player-id="${player.id}" ${myRoster.length >= 15 || state.budget < player.salary ? 'disabled' : ''}>
-                      ${myRoster.length >= 15 ? '名單已滿' : state.budget < player.salary ? '預算不足' : '簽約'}
-                    </button>
-                  </div>
+                  <button type="button" class="btn small gold" data-action="sign-player" data-player-id="${player.id}" ${getRoster().length >= 15 || state.budget < player.salary ? 'disabled' : ''}>
+                    ${state.budget < player.salary ? '預算不足' : getRoster().length >= 15 ? '名額已滿' : '簽約'}
+                  </button>
                 </div>
               `).join('') || '<div class="empty">目前沒有可簽約球員。</div>'}
             </div>
@@ -932,56 +925,45 @@
         if (!state.draft) {
           return `
             <div class="card">
-              <div class="card-head"><h3>TPBL 選秀</h3></div>
-              <div class="notice">完成例行賽後才能進行選秀，依戰績由後至前抽排。每年新秀會追加到你的名單。</div>
-              <button class="btn gold" data-action="start-draft" ${state.games < REGULAR_GAMES ? 'disabled' : ''}>開始選秀</button>
+              <div class="card-head">
+                <h3>選秀</h3>
+              </div>
+              <div class="notice">例行賽完成 40 場後，選秀階段會依順位產生新秀池。你可以從中選擇年輕潛力球員補強陣容。</div>
+              <button type="button" class="btn gold" data-action="start-draft" ${state.games < 40 ? 'disabled' : ''}>開始選秀</button>
             </div>
           `;
         }
 
-        const d = state.draft;
-        const currentTeam = d.order[d.pick];
+        const draft = state.draft;
+        const currentTeam = draft.order[draft.pick] || state.team;
 
         return `
           <div class="card">
-            <div class="card-head"><h3>第 ${state.season} 季選秀</h3></div>
-            <div class="notice">目前輪到：${safeText(currentTeam)}；你的順位：第 ${d.order.indexOf(state.team) + 1}</div>
-            <div class="standings-list">
-              ${d.order.map((team, idx) => `
-                <div class="standings-row">
-                  <div>${idx + 1}. ${safeText(team)}</div>
-                  <strong>${idx === d.pick ? '輪到' : idx < d.pick ? '已選' : '待選'}</strong>
+            <div class="card-head">
+              <h3>選秀階段</h3>
+            </div>
+            <div class="notice">目前輪到：${safeHtml(currentTeam)}；你的順位：${draft.order.indexOf(state.team) + 1}</div>
+            <div class="list">
+              ${draft.pool.map((player) => `
+                <div class="entry">
+                  <div class="player-main">
+                    <div class="ovr">${player.rating}</div>
+                    <div>
+                      <strong>${safeHtml(player.name)}</strong>
+                      <span class="small-note">${safeHtml(player.pos)} • ${player.age}歲 • 潛力 ${player.potential}</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn small gold" data-action="pick-player" data-player-id="${player.id}" ${currentTeam !== state.team || getRoster().length >= 15 ? 'disabled' : ''}>選擇</button>
                 </div>
               `).join('')}
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-head"><h3>可選新秀</h3></div>
-            <div class="market-list">
-              ${d.pool.map((player) => `
-                <div class="market-row">
-                  <div>
-                    <strong>${safeText(player.name)}</strong>
-                    <span class="small-note">${safeText(player.pos)} · 潛力 ${player.potential} · ${player.age}歲</span>
-                  </div>
-                  <div class="row">
-                    <span class="rating">${player.rating}</span>
-                    <button class="btn small gold" data-action="pick-player" data-player-id="${player.id}" ${currentTeam !== state.team || getRoster().length >= 15 ? 'disabled' : ''}>選擇</button>
-                  </div>
-                </div>
-              `).join('') || '<div class="empty">沒有可選新秀。</div>'}
             </div>
           </div>
         `;
       }
 
       function render() {
-        renderStats();
-        const page = document.querySelector('.nav button.active')?.dataset.page || 'home';
-        const view = document.getElementById('view');
-
-        const content = {
+        renderStatsBar();
+        const pageRenderer = {
           home: renderHome,
           roster: renderRoster,
           standings: renderStandings,
@@ -991,294 +973,152 @@
           draft: renderDraft
         };
 
-        view.innerHTML = content[page] ? content[page]() : renderHome();
-      }
-
-      function updateNavigation(nextPage) {
-        document.querySelectorAll('.nav button').forEach((btn) => {
-          btn.classList.toggle('active', btn.dataset.page === nextPage);
+        document.getElementById('view').innerHTML = (pageRenderer[currentPage] || renderHome)();
+        document.querySelectorAll('.nav button').forEach((button) => {
+          button.classList.toggle('active', button.dataset.page === currentPage);
         });
       }
 
-      function setPage(page) {
-        updateNavigation(page);
-        render();
-      }
-
-      function tournamentSim() {
-        const myStarters = getStarters();
-        if (myStarters.length !== 5) {
+      function playGame() {
+        const starters = getStarters();
+        if (starters.length !== 5) {
           toast('請先安排 5 位先發。');
           return;
         }
-
-        if (state.games >= REGULAR_GAMES) {
-          toast('例行賽已結束，請進入季後賽。');
+        if (state.games >= 40) {
+          toast('例行賽已結束，請先進入季後賽。');
           return;
         }
 
-        const opponents = TEAMS.filter((team) => team !== state.team);
-        const oppTeam = opponents[Math.floor(Math.random() * opponents.length)];
-        const oppStarters = getStarters(oppTeam).slice(0, 5);
-        const myOVR = overall(myStarters);
-        const oppOVR = overall(oppStarters);
+        const opponentTeam = TEAM_NAMES.filter((team) => team !== state.team)[Math.floor(Math.random() * 6)];
+        const oppStarters = getStarters(opponentTeam);
+        const myOVR = overall(starters);
+        const oppOVR = overall(oppStarters.length ? oppStarters : getRoster(opponentTeam));
 
-        const myScore = Math.round(75 + Math.random() * 25 + (myOVR - 70) * 0.8);
-        const oppScore = Math.round(75 + Math.random() * 25 + (oppOVR - 70) * 0.8);
+        let myScore = 72 + Math.random() * 26 + (myOVR - 70) * 0.72;
+        let oppScore = 72 + Math.random() * 24 + (oppOVR - 70) * 0.68;
+        myScore = Math.round(myScore);
+        oppScore = Math.round(oppScore);
+
         const win = myScore >= oppScore;
-
         state.games += 1;
-        if (win) state.wins += 1; else state.losses += 1;
+        state.standings[state.team] = { wins: state.wins, losses: state.losses, games: state.games };
 
-        const teamRecord = state.standings[state.team] || { wins: 0, losses: 0, games: 0 };
-        teamRecord.games = state.games;
-        teamRecord.wins = state.wins;
-        teamRecord.losses = state.losses;
-        state.standings[state.team] = teamRecord;
+        const oppRecord = state.standings[opponentTeam] || { wins: 0, losses: 0, games: 0 };
+        oppRecord.games = Number(oppRecord.games) + 1;
+        if (win) {
+          state.wins += 1; 
+          oppRecord.losses = Number(oppRecord.losses) + 1;
+        } else {
+          state.losses += 1;
+          oppRecord.wins = Number(oppRecord.wins) + 1;
+        }
+        state.standings[opponentTeam] = oppRecord;
+        state.standings[state.team] = { wins: state.wins, losses: state.losses, games: state.games };
 
-        const oppRecord = state.standings[oppTeam] || { wins: 0, losses: 0, games: 0 };
-        oppRecord.games = (oppRecord.games || 0) + 1;
-        if (win) oppRecord.losses = (oppRecord.losses || 0) + 1; else oppRecord.wins = (oppRecord.wins || 0) + 1;
-        state.standings[oppTeam] = oppRecord;
+        logEvent(`${state.team} ${myScore}-${oppScore} ${opponentTeam}，${win ? '拿下勝利' : '落敗'}。`);
 
-        logEvent(`${state.team} ${myScore}-${oppScore} ${oppTeam}，${win ? '獲勝' : '落敗'}。`);
-
-        myStarters.forEach((p) => {
-          p.stats.games += 1;
-          p.stats.points += Math.max(8, Math.round((myScore / 5) * (0.8 + Math.random() * 0.5)));
+        starters.forEach((player) => {
+          player.stats.games += 1;
+          player.stats.points += Math.max(10, Math.round((myScore / 5) * (0.8 + Math.random() * 0.7)));
         });
 
-        if (state.games >= REGULAR_GAMES) {
+        if (state.games >= 40) {
           logEvent(`例行賽結束，${state.team} 戰績 ${state.wins}-${state.losses}。`);
         }
 
         saveState();
         render();
-        toast(win ? `勝利！${myScore}-${oppScore}` : `落敗！${myScore}-${oppScore}`);
+        toast(win ? `勝利 ${myScore}-${oppScore}` : `落敗 ${myScore}-${oppScore}`);
       }
 
       function startPlayoffs() {
-        if (state.games < REGULAR_GAMES) {
+        if (state.games < 40) {
           toast('請先完成 40 場例行賽。');
           return;
         }
 
-        const order = buildStandings().map((row) => row.team);
-        const challenge = {
-          a: order[3],
-          b: order[4],
-          aw: 0,
-          bw: 0,
-          best: 3,
-          winner: null
-        };
-
+        const standings = buildStandings();
+        const order = standings.map((entry) => entry.team);
         state.postseason = {
-          stage: 'challenge',
-          challenge,
+          challenge: { a: order[3], b: order[4], aw: 0, bw: 0 },
           semis: [
-            { a: order[0], b: order[3], aw: 0, bw: 0, best: 7, winner: null },
-            { a: order[1], b: order[2], aw: 0, bw: 0, best: 7, winner: null }
+            { a: order[0], b: order[3], aw: 0, bw: 0 },
+            { a: order[1], b: order[2], aw: 0, bw: 0 }
           ],
-          final: null,
-          champion: null
+          final: { a: '', b: '', aw: 0, bw: 0 }
         };
-
-        logEvent(`例行賽結束，季後賽分組已產生。第 4、5 名挑戰賽開始。`);
-        saveState();
-        render();
-      }
-
-      function getCurrentSeries() {
-        if (!state.postseason || state.postseason.champion) return null;
-        if (state.postseason.stage === 'challenge') return state.postseason.challenge;
-        if (state.postseason.stage === 'semis') return state.postseason.semis[state.postseason.semiIndex || 0];
-        return state.postseason.final;
-      }
-
-      function advanceSeries(winner) {
-        const p = state.postseason;
-        if (!p) return;
-
-        if (p.stage === 'challenge') {
-          const s = p.challenge;
-          s.winner = winner;
-          p.semis = [
-            { a: buildStandings()[0].team, b: winner, aw: 0, bw: 0, best: 7, winner: null },
-            { a: buildStandings()[1].team, b: buildStandings()[2].team, aw: 0, bw: 0, best: 7, winner: null }
-          ];
-          p.stage = 'semis';
-          p.semiIndex = 0;
-          logEvent(`${winner} 晉級挑戰賽勝者戰，進入準決賽。`);
-          return;
-        }
-
-        if (p.stage === 'semis') {
-          const idx = p.semiIndex || 0;
-          p.semis[idx].winner = winner;
-          if (idx === 0) {
-            p.semiIndex = 1;
-            logEvent(`${winner} 先勝出準決賽第一組。`);
-            return;
-          }
-          const finalists = [p.semis[0].winner, p.semis[1].winner];
-          p.final = { a: finalists[0], b: finalists[1], aw: 0, bw: 0, best: 7, winner: null };
-          p.stage = 'final';
-          p.semiIndex = 0;
-          logEvent(`總冠軍賽：${finalists[0]} 對 ${finalists[1]}。`);
-          return;
-        }
-
-        if (p.stage === 'final') {
-          p.champion = winner;
-          logEvent(`${winner} 獲得總冠軍！`);
-          finishSeason(winner);
-        }
-      }
-
-      function finishSeason(champion) {
-        const allPlayers = TEAMS.flatMap((team) => getRoster(team));
-        const sortedByPoints = [...allPlayers].sort((a, b) => (b.stats.points || 0) - (a.stats.points || 0));
-        const mvp = sortedByPoints[0] || { name: '—', team: '—', stats: { points: 0 } };
-        const dopy = [...allPlayers].sort((a, b) => b.rating - a.rating)[0] || { name: '—', team: '—' };
-        const roy = [...allPlayers].filter((p) => p.age <= 22).sort((a, b) => b.rating - a.rating)[0] || { name: '—', team: '—' };
-        const ppg = (mvp.stats.points || 0) > 0 ? (mvp.stats.points / Math.max(1, mvp.stats.games || 1)).toFixed(1) : '0.0';
-
-        state.awards.push({
-          season: state.season,
-          champion,
-          mvp: { name: mvp.name, team: mvp.team, ppg: Number(ppg) },
-          dopy: { name: dopy.name, team: dopy.team },
-          roy: { name: roy.name, team: roy.team }
-        });
-      }
-
-      function simulatePlayoffGame() {
-        const s = getCurrentSeries();
-        if (!s) {
-          toast('季後賽已結束。');
-          return;
-        }
-
-        const aTeam = s.a;
-        const bTeam = s.b;
-        const aOVR = overall(getStarters(aTeam));
-        const bOVR = overall(getStarters(bTeam));
-        const aScore = Math.round(80 + Math.random() * 16 + (aOVR - 70) * 0.6);
-        const bScore = Math.round(80 + Math.random() * 16 + (bOVR - 70) * 0.6);
-
-        if (aScore >= bScore) s.aw += 1; else s.bw += 1;
-
-        const target = Math.ceil(s.best / 2);
-        const winner = s.aw >= target ? s.a : s.bw >= target ? s.b : null;
-
-        logEvent(`${aTeam} ${aScore}-${bScore} ${bTeam}。`);
-        if (winner) {
-          advanceSeries(winner);
-          toast(`${winner} 取得系列賽勝利。`);
-        } else {
-          toast(`系列賽進行中：${s.a} ${s.aw}-${s.bw} ${s.b}`);
-        }
-
-        saveState();
-        render();
-      }
-
-      function nextSeason() {
-        if (state.season >= MAX_SEASONS) {
-          toast('已達到 20 季上限，請重新開始新王朝。');
-          return;
-        }
-
-        state.season += 1;
-        state.games = 0;
-        state.wins = 0;
-        state.losses = 0;
-        state.budget += 8;
-        state.postseason = null;
-        state.draft = null;
-        state.standings = defaultStandings();
-
-        TEAMS.forEach((team) => {
-          const roster = getRoster(team);
-          roster.forEach((p) => {
-            p.age += 1;
-            p.stats = { games: 0, points: 0 };
-            if (p.age > 31 && Math.random() < 0.3) p.rating = Math.max(50, p.rating - 1);
-            p.starter = false;
-          });
-          const starters = roster.slice(0, 5);
-          starters.forEach((p) => p.starter = true);
-        });
-
-        logEvent(`進入第 ${state.season} 季，新賽季開始。`);
+        logEvent('季後賽正式開始。');
         saveState();
         render();
       }
 
       function startDraft() {
-        if (state.games < REGULAR_GAMES) {
+        if (state.games < 40) {
           toast('請先完成 40 場例行賽。');
           return;
         }
 
-        const order = [...buildStandings()].reverse().map((r) => r.team);
-        const pool = [
-          { id: 'rookie-1', name: '陳冠宇', pos: 'SG', age: 19, rating: 77, potential: 92 },
-          { id: 'rookie-2', name: '王子維', pos: 'PG', age: 18, rating: 74, potential: 89 },
-          { id: 'rookie-3', name: '林冠廷', pos: 'PF', age: 20, rating: 76, potential: 90 },
-          { id: 'rookie-4', name: '張家豪', pos: 'C', age: 19, rating: 75, potential: 88 },
-          { id: 'rookie-5', name: '周昱翔', pos: 'SF', age: 20, rating: 78, potential: 91 },
-          { id: 'rookie-6', name: '吳柏廷', pos: 'PG', age: 19, rating: 73, potential: 87 }
-        ];
-
+        const order = [...buildStandings()].reverse().map((entry) => entry.team);
         state.draft = {
           order,
           pick: 0,
-          pool
+          pool: [
+            { id: 'pick-1', name: '陳冠宇', pos: 'SG', age: 19, rating: 77, potential: 92 },
+            { id: 'pick-2', name: '王子維', pos: 'PG', age: 18, rating: 74, potential: 90 },
+            { id: 'pick-3', name: '林冠廷', pos: 'PF', age: 20, rating: 76, potential: 89 },
+            { id: 'pick-4', name: '張家豪', pos: 'C', age: 19, rating: 75, potential: 88 },
+            { id: 'pick-5', name: '周昱翔', pos: 'SF', age: 20, rating: 79, potential: 91 },
+            { id: 'pick-6', name: '吳柏廷', pos: 'PG', age: 19, rating: 73, potential: 87 }
+          ]
         };
         saveState();
         render();
       }
 
-      function chooseDraftPlayer(playerId) {
+      function pickDraftPlayer(playerId) {
         if (!state.draft) return;
         const draft = state.draft;
         if (draft.order[draft.pick] !== state.team) {
-          toast('現在不是你的選秀順位。');
+          toast('這輪不是你的選秀順序。');
           return;
         }
 
-        const idx = draft.pool.findIndex((p) => p.id === playerId);
-        if (idx < 0) return;
+        const player = draft.pool.find((item) => item.id === playerId);
+        if (!player) return;
 
-        const p = draft.pool.splice(idx, 1)[0];
-        const myList = getRoster();
-        if (myList.length >= 15) {
+        const roster = getRoster();
+        if (roster.length >= 15) {
           toast('名單已滿，請先釋出球員。');
           return;
         }
 
-        myList.push({
+        roster.push({
           id: `draft-${Date.now()}`,
-          name: p.name,
+          name: player.name,
           team: state.team,
-          pos: p.pos,
-          age: p.age,
-          rating: p.rating,
-          potential: p.potential,
+          pos: player.pos,
+          age: player.age,
+          rating: player.rating,
+          potential: player.potential,
           salary: 4,
           starter: false,
           stats: { games: 0, points: 0 }
         });
 
+        draft.pool = draft.pool.filter((item) => item.id !== playerId);
         draft.pick += 1;
-        logEvent(`${state.team} 選秀選下 ${p.name}。`);
+        logEvent(`${state.team} 選進 ${player.name}。`);
 
         if (draft.pick >= draft.order.length) {
           state.draft = null;
-          nextSeason();
-          return;
+          state.season += 1;
+          state.games = 0;
+          state.wins = 0;
+          state.losses = 0;
+          state.standings = Object.fromEntries(TEAM_NAMES.map((teamName) => [teamName, { wins: 0, losses: 0, games: 0 }]));
+          state.postseason = null;
+          logEvent(`第 ${state.season} 季開始。`);
         }
 
         saveState();
@@ -1287,15 +1127,17 @@
 
       function toggleStarter(playerId) {
         const roster = getRoster();
-        const player = roster.find((p) => p.id === playerId);
+        const player = roster.find((item) => item.id === playerId);
         if (!player) return;
 
         const starters = getStarters();
         if (player.starter) {
-          if (starters.length <= 5) return;
           player.starter = false;
         } else {
-          if (starters.length >= 5) return;
+          if (starters.length >= 5) {
+            toast('先發人數已滿 5 位。');
+            return;
+          }
           player.starter = true;
         }
         saveState();
@@ -1304,85 +1146,89 @@
 
       function releasePlayer(playerId) {
         const roster = getRoster();
-        const idx = roster.findIndex((p) => p.id === playerId);
-        if (idx < 0) return;
+        const index = roster.findIndex((player) => player.id === playerId);
+        if (index < 0) return;
         if (roster.length <= 5) {
-          toast('至少要保留 5 位球員。');
+          toast('至少保留 5 位球員。');
           return;
         }
 
-        const [player] = roster.splice(idx, 1);
-        state.budget += Number(player.salary) * 0.5;
-        logEvent(`${player.name} 被釋出，回收 ${player.salary * 0.5}M。`);
+        const [removed] = roster.splice(index, 1);
+        state.budget += Number(removed.salary || 0) * 0.5;
+        logEvent(`${removed.name} 被釋出。`);
         saveState();
         render();
       }
 
       function signPlayer(playerId) {
-        const myRoster = getRoster();
-        const pool = TEAMS.filter((team) => team !== state.team).flatMap((team) => getRoster(team));
-        const player = pool.find((p) => p.id === playerId);
-        if (!player) return;
-        if (myRoster.length >= 15) {
-          toast('球員名單已滿。');
+        const teamPool = TEAM_NAMES.filter((team) => team !== state.team).flatMap((team) => getRoster(team).map((player) => ({ ...player, sourceTeam: team })));
+        const target = teamPool.find((player) => player.id === playerId);
+        if (!target) return;
+
+        if (getRoster().length >= 15) {
+          toast('名單已滿。');
           return;
         }
-        if (state.budget < player.salary) {
+        if (state.budget < target.salary) {
           toast('預算不足，無法簽約。');
           return;
         }
 
-        const sourceTeam = player.team;
+        const sourceTeam = target.sourceTeam;
         const sourceRoster = getRoster(sourceTeam);
-        const idx = sourceRoster.findIndex((p) => p.id === player.id);
-        if (idx >= 0) sourceRoster.splice(idx, 1);
+        const sourceIndex = sourceRoster.findIndex((player) => player.id === target.id);
+        if (sourceIndex >= 0) sourceRoster.splice(sourceIndex, 1);
 
-        player.team = state.team;
-        player.starter = false;
-        state.budget -= player.salary;
-        myRoster.push(player);
-        logEvent(`${player.name} 從 ${sourceTeam} 簽下，薪資 ${player.salary}M。`);
+        const signed = { ...target, team: state.team, sourceTeam: undefined, starter: false };
+        getRoster().push(signed);
+        state.budget -= target.salary;
+        logEvent(`${signed.name} 從 ${sourceTeam} 轉投 ${state.team}。`);
         saveState();
         render();
       }
 
       function showSettings() {
-        const modal = document.createElement('div');
-        modal.className = 'modal-bg';
-        modal.innerHTML = `
+        const modalBg = document.createElement('div');
+        modalBg.className = 'modal-bg';
+        modalBg.innerHTML = `
           <div class="modal">
             <h3>球隊設定</h3>
-            <label>選擇經營球隊</label>
+            <label>選擇球隊</label>
             <select id="teamSelect">
-              ${TEAMS.map((team) => `<option value="${team}" ${team === state.team ? 'selected' : ''}>${safeText(team)}</option>`).join('')}
+              ${TEAM_NAMES.map((team) => `<option value="${team}" ${team === state.team ? 'selected' : ''}>${safeHtml(team)}</option>`).join('')}
             </select>
             <label>總經理名稱</label>
-            <input id="managerInput" value="${safeText(state.manager)}" />
+            <input id="managerInput" value="${safeHtml(state.manager)}" />
             <div class="modal-actions">
-              <button class="btn small" data-close-modal="1">取消</button>
-              <button class="btn gold small" data-save-settings="1">儲存</button>
+              <button type="button" class="btn small" data-close-modal="1">取消</button>
+              <button type="button" class="btn gold small" data-save-settings="1">儲存</button>
             </div>
           </div>
         `;
-        document.body.appendChild(modal);
+        document.body.appendChild(modalBg);
       }
 
-      function applySettings() {
-        const team = document.getElementById('teamSelect')?.value || state.team;
-        const manager = document.getElementById('managerInput')?.value.trim() || '總經理';
-        state.team = TEAMS.includes(team) ? team : state.team;
-        state.manager = manager;
-        if (!state.rosters[state.team]) state.rosters[state.team] = createTeamRoster(state.team);
+      function saveSettings() {
+        const select = document.getElementById('teamSelect');
+        const input = document.getElementById('managerInput');
+        if (!select || !input) return;
+
+        const nextTeam = TEAM_NAMES.includes(select.value) ? select.value : state.team;
+        state.team = nextTeam;
+        state.manager = input.value.trim() || '總經理';
+        if (!state.rosters[state.team]) state.rosters[state.team] = buildTeamRoster(state.team);
+
+        document.querySelector('.modal-bg')?.remove();
         saveState();
         render();
-        document.querySelector('.modal-bg')?.remove();
       }
 
       function restartGame() {
-        const should = confirm('確定要重新開始？這會重置全部進度。');
-        if (!should) return;
-        const fresh = freshState();
-        Object.assign(state, fresh);
+        const ok = confirm('確定要重新開始新王朝？');
+        if (!ok) return;
+
+        Object.keys(state).forEach((key) => delete state[key]);
+        Object.assign(state, freshState());
         saveState();
         render();
         toast('新王朝開始！');
@@ -1393,8 +1239,13 @@
         if (!button) return;
 
         if (button.dataset.page) {
-          updateNavigation(button.dataset.page);
+          currentPage = button.dataset.page;
           render();
+          return;
+        }
+
+        if (button.id === 'settingsBtn') {
+          showSettings();
           return;
         }
 
@@ -1404,20 +1255,23 @@
         }
 
         if (button.dataset.saveSettings) {
-          applySettings();
+          saveSettings();
           return;
         }
 
-        if (button.id === 'settingsBtn') {
-          showSettings();
-          return;
-        }
-
-        const { action } = button.dataset;
-
+        const action = button.dataset.action;
         switch (action) {
           case 'play-game':
-            tournamentSim();
+            playGame();
+            break;
+          case 'restart':
+            restartGame();
+            break;
+          case 'start-playoffs':
+            startPlayoffs();
+            break;
+          case 'start-draft':
+            startDraft();
             break;
           case 'toggle-starter':
             toggleStarter(button.dataset.playerId);
@@ -1428,41 +1282,18 @@
           case 'sign-player':
             signPlayer(button.dataset.playerId);
             break;
-          case 'start-playoffs':
-            startPlayoffs();
-            break;
-          case 'start-draft':
-            startDraft();
-            break;
           case 'pick-player':
-            chooseDraftPlayer(button.dataset.playerId);
-            break;
-          case 'restart':
-            restartGame();
-            break;
-          case 'simulate-postseason':
-            simulatePlayoffGame();
+            pickDraftPlayer(button.dataset.playerId);
             break;
           default:
             break;
         }
       });
 
-      document.addEventListener('click', (event) => {
-        const btn = event.target.closest('[data-action="simulate-postseason"]');
-        if (btn) simulatePlayoffGame();
-      });
-
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           document.querySelector('.modal-bg')?.remove();
         }
-      });
-
-      document.getElementById('navBar')?.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-page]');
-        if (!btn) return;
-        setPage(btn.dataset.page);
       });
 
       render();
