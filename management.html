@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0b1018">
 <title>球員管理｜FRONT OFFICE</title>
 <style>
-:root{color-scheme:dark;--bg:#09131d;--panel:#14202d;--line:#2b3d50;--text:#eef4fb;--muted:#9cacc0;--gold:#edc36e;--green:#73d6a0;--red:#ff9292;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}.app{max-width:1050px;margin:auto;padding:20px}header,.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}h1{font-size:23px;margin:0}h2{font-size:18px;margin:0}a{color:var(--gold);text-decoration:none}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;margin:14px 0}.row{margin-bottom:10px}.notice{background:#19293a;border:1px solid var(--line);padding:12px;border-radius:9px;color:#d4e2f1;line-height:1.55}.muted,small{color:var(--muted)}.btn{border:1px solid var(--line);background:#26374a;color:var(--text);border-radius:9px;padding:9px 13px;cursor:pointer;font:inherit;font-weight:700}.btn.gold{color:#201b11;background:var(--gold);border-color:var(--gold)}.btn:disabled{opacity:.45;cursor:not-allowed}.badge{display:inline-block;font-size:11px;border:1px solid #927941;border-radius:99px;color:var(--gold);padding:3px 7px;margin-left:6px}.badge.foreign{border-color:#c78f4a;color:#ffd7aa}.entry{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #ffffff12}.entry:last-child{border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.team{background:#0b1520;border:1px solid var(--line);border-radius:10px;padding:12px}.team h3{margin:0 0 6px;font-size:15px}.player{font-size:13px;padding:5px 0;border-top:1px solid #ffffff10}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#f1f5f9;color:#111;padding:11px 16px;border-radius:9px;max-width:90vw;box-shadow:0 6px 25px rgba(0,0,0,.25)}
+:root{color-scheme:dark;--bg:#09131d;--panel:#14202d;--line:#2b3d50;--text:#eef4fb;--muted:#9cacc0;--gold:#edc36e;--red:#ff9292;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}.app{max-width:1050px;margin:auto;padding:20px}header,.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}h1{font-size:23px;margin:0}h2{font-size:18px;margin:0}a{color:var(--gold);text-decoration:none}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;margin:14px 0}.row{margin-bottom:10px}.notice{background:#19293a;border:1px solid var(--line);padding:12px;border-radius:9px;color:#d4e2f1;line-height:1.55}.muted,small{color:var(--muted)}.btn{border:1px solid var(--line);background:#26374a;color:var(--text);border-radius:9px;padding:9px 13px;cursor:pointer;font:inherit;font-weight:700}.btn.gold{color:#201b11;background:var(--gold);border-color:var(--gold)}.btn:disabled{opacity:.45;cursor:not-allowed}.badge{display:inline-block;font-size:11px;border:1px solid #927941;border-radius:99px;color:var(--gold);padding:3px 7px;margin-left:6px}.badge.foreign{border-color:#c78f4a;color:#ffd7aa}.entry{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #ffffff12}.entry:last-child{border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.team{background:#0b1520;border:1px solid var(--line);border-radius:10px;padding:12px}.team h3{margin:0 0 6px;font-size:15px}.player{font-size:13px;padding:5px 0;border-top:1px solid #ffffff10}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#f1f5f9;color:#111;padding:11px 16px;border-radius:9px;max-width:90vw;box-shadow:0 6px 25px rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
@@ -17,7 +17,7 @@
   </header>
   <section class="card">
     <div class="row"><div><h2>聯盟設定</h2><small id="status">讀取中…</small></div><button id="randomize" class="btn">隨機重新分隊</button></div>
-    <p class="notice">隨機分隊會重新洗牌現有球員並平均分配到七隊，保留球員能力、數據及賽季進度。每隊球員名單最多 15 人，外籍球員最多 4 人。</p>
+    <p class="notice">隨機分隊會重新洗牌現有球員並平均分配到七隊，保留球員能力、數據及賽季進度。每隊球員名單最多 15 人，外籍球員最多 4 人。自由球員市場提供 4 名外籍球員，每名年薪上限為 US$40,000。</p>
   </section>
   <section class="card">
     <div class="row"><div><h2>自由球員市場</h2><small>簽約後球員直接加入目前經營的球隊。</small></div><b id="payroll">薪資 0 / 100M</b></div>
@@ -28,7 +28,7 @@
 <script>
 (() => {
   'use strict';
-  const KEY='front-office-tpbl-optimized-v1', CAP=100, MAX_ROSTER=15, MAX_FOREIGN=4;
+  const KEY='front-office-tpbl-optimized-v1', CAP=100, MAX_ROSTER=15, MAX_FOREIGN=4, FOREIGN_SALARY_CAP_USD=40000;
   const TEAMS=['桃園台啤永豐雲豹','福爾摩沙台新夢想家','新北國王','新竹御嵿攻城獅','新北中信特攻','臺北台新戰神','高雄全家海神'];
   const $=s=>document.querySelector(s);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -36,16 +36,20 @@
   function notify(message){let node=$('#toast');if(!node){node=document.createElement('div');node.id='toast';node.className='toast';document.body.appendChild(node)}node.textContent=message;clearTimeout(window.__managementToast);window.__managementToast=setTimeout(()=>node.remove(),2200)}
   function createFreeAgents(){
     const locals=['林冠宇','陳子豪','張家維','王俊凱','李明哲','周柏安','吳承翰','黃建宏','蔡昱廷','許博翔','鄭宇翔','郭柏廷','高志遠','楊承恩','洪子皓','羅文傑'];
-    const imports=['Marcus Reed','Jordan Hayes','Darius Cole','Andre Miller','Caleb Brooks','Malik Turner','Dylan Carter','Noah Bennett'];
-    const make=(name,index,isForeign)=>({id:uid(),name,team:'自由球員',pos:['PG','SG','SF','PF','C'][index%5],age:isForeign?23+index%8:20+index%10,rating:isForeign?72+(index*3)%16:64+(index*7)%18,potential:84+index%14,salary:isForeign?10+index%5:5+index%6,starter:false,injury:0,isForeign,stats:{gp:0,pts:0,reb:0,ast:0,stl:0,blk:0}});
-    return [...locals.map((n,i)=>make(n,i,false)),...imports.map((n,i)=>make(n,i+locals.length,true))];
+    const imports=['Marcus Reed','Jordan Hayes','Darius Cole','Andre Miller'];
+    const make=(name,index,isForeign)=>({id:uid(),name,team:'自由球員',pos:['PG','SG','SF','PF','C'][index%5],age:isForeign?23+index%8:20+index%10,rating:isForeign?72+(index*3)%16:64+(index*7)%18,potential:84+index%14,salary:isForeign?4:5+(index%6),salaryUsd:isForeign?FOREIGN_SALARY_CAP_USD:null,starter:false,injury:0,isForeign,stats:{gp:0,pts:0,reb:0,ast:0,stl:0,blk:0}});
+    return [...locals.map((name,i)=>make(name,i,false)),...imports.map((name,i)=>make(name,i+locals.length,true))];
   }
-  function normalizePlayer(p,team){return {...p,id:p.id||uid(),name:p.name||'球員',team:p.team||team,pos:p.pos||'SF',age:Number(p.age)||22,rating:Number(p.rating)||70,potential:Number(p.potential)||Number(p.rating)||70,salary:Number(p.salary)||5,starter:!!p.starter,injury:Number(p.injury)||0,isForeign:!!p.isForeign||!!p.foreign,stats:p.stats||{gp:0,pts:0,reb:0,ast:0,stl:0,blk:0}}}
+  function normalizePlayer(p,team){
+    const isForeign=!!p.isForeign||!!p.foreign;
+    return {...p,id:p.id||uid(),name:p.name||'球員',team:p.team||team,pos:p.pos||'SF',age:Number(p.age)||22,rating:Number(p.rating)||70,potential:Number(p.potential)||Number(p.rating)||70,salary:isForeign?Math.min(Number(p.salary)||4,4):(Number(p.salary)||5),salaryUsd:isForeign?Math.min(Number(p.salaryUsd)||FOREIGN_SALARY_CAP_USD,FOREIGN_SALARY_CAP_USD):null,starter:!!p.starter,injury:Number(p.injury)||0,isForeign,stats:p.stats||{gp:0,pts:0,reb:0,ast:0,stl:0,blk:0}};
+  }
   function loadState(){
     let raw;try{raw=JSON.parse(localStorage.getItem(KEY))}catch{}
     if(!raw||!raw.rosters)throw new Error('找不到遊戲存檔，請先開啟主遊戲頁面建立或載入存檔。');
     const rosters=Object.fromEntries(TEAMS.map(team=>[team,(Array.isArray(raw.rosters[team])?raw.rosters[team]:[]).map(p=>normalizePlayer(p,team))]));
-    return {...raw,team:TEAMS.includes(raw.team)?raw.team:TEAMS[0],rosters,freeAgents:Array.isArray(raw.freeAgents)?raw.freeAgents.map(p=>normalizePlayer(p,'自由球員')):createFreeAgents(),history:Array.isArray(raw.history)?raw.history:[]};
+    const freeAgents=Array.isArray(raw.freeAgents)?raw.freeAgents.map(p=>normalizePlayer(p,'自由球員')):createFreeAgents();
+    return {...raw,team:TEAMS.includes(raw.team)?raw.team:TEAMS[0],rosters,freeAgents,history:Array.isArray(raw.history)?raw.history:[]};
   }
   let state;
   function saveState(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch{notify('儲存失敗，請檢查瀏覽器儲存空間。');return false}}
@@ -55,14 +59,14 @@
     const team=state.team,roster=state.rosters[team]||[];
     $('#status').textContent=`經營球隊：${team}｜名單 ${roster.length}/${MAX_ROSTER}｜外籍 ${foreignCount(team)}/${MAX_FOREIGN}`;
     $('#payroll').textContent=`薪資 ${payroll(team)} / ${CAP}M`;
-    $('#market').innerHTML=state.freeAgents.length?state.freeAgents.map(p=>`<div class="entry"><div><b>${esc(p.name)}</b>${p.isForeign?'<span class="badge foreign">外籍</span>':'<span class="badge">本土</span>'}<small class="muted">${esc(p.pos)} · ${Number(p.age)||22}歲 · ${Number(p.rating)||0} OVR · 薪資 ${Number(p.salary)||0}M</small></div><button class="btn gold" data-sign="${esc(p.id)}">簽約</button></div>`).join(''):'<div class="notice">自由球員市場目前沒有球員。</div>';
-    $('#teams').innerHTML=TEAMS.map(t=>`<section class="team"><h3>${esc(t)} <small>${(state.rosters[t]||[]).length}/${MAX_ROSTER}人 · 薪資 ${payroll(t)}M · 外籍 ${foreignCount(t)}/${MAX_FOREIGN}</small></h3>${(state.rosters[t]||[]).map(p=>`<div class="player">${esc(p.name)}${p.isForeign||p.foreign?' <span class="badge foreign">外籍</span>':''}<span class="muted"> · ${Number(p.rating)||0} OVR · ${Number(p.salary)||0}M</span></div>`).join('')||'<small>目前尚無球員</small>'}</section>`).join('');
+    $('#market').innerHTML=state.freeAgents.length?state.freeAgents.map(p=>`<div class="entry"><div><b>${esc(p.name)}</b>${p.isForeign?'<span class="badge foreign">外籍</span>':'<span class="badge">本土</span>'}<small class="muted">${esc(p.pos)} · ${Number(p.age)||22}歲 · ${Number(p.rating)||0} OVR · ${p.isForeign?`年薪 US$${Number(p.salaryUsd)||FOREIGN_SALARY_CAP_USD.toLocaleString()}（遊戲薪資 ${Number(p.salary)||4}M）`:`薪資 ${Number(p.salary)||0}M`}</small></div><button class="btn gold" data-sign="${esc(p.id)}">簽約</button></div>`).join(''):'<div class="notice">自由球員市場目前沒有可簽約球員。</div>';
+    $('#teams').innerHTML=TEAMS.map(t=>`<section class="team"><h3>${esc(t)} <small>${(state.rosters[t]||[]).length}/${MAX_ROSTER}人 · 薪資 ${payroll(t)}M · 外籍 ${foreignCount(t)}/${MAX_FOREIGN}</small></h3>${(state.rosters[t]||[]).map(p=>`<div class="player">${esc(p.name)}${p.isForeign||p.foreign?' <span class="badge foreign">外籍</span>':''}<span class="muted"> · ${Number(p.rating)||0} OVR · ${p.isForeign?`US$${Number(p.salaryUsd)||FOREIGN_SALARY_CAP_USD.toLocaleString()}（${Number(p.salary)||4}M）`:`${Number(p.salary)||0}M`}</span></div>`).join('')||'<small>目前尚無球員</small>'}</section>`).join('');
   }
   function signFreeAgent(playerId){
     const team=state.team,player=state.freeAgents.find(p=>p.id===playerId);if(!player)return;
     const list=state.rosters[team]||[];
     if(list.length>=MAX_ROSTER)return notify(`名單已達 ${MAX_ROSTER} 人上限，無法簽約。`);
-    if(payroll(team)+(Number(player.salary)||0)>CAP)return notify(`簽約後薪資會超過 ${CAP}M 上限，無法簽約。`);
+    if(payroll(team)+(Number(player.salary)||0)>CAP)return notify(`簽約後薪資會超過 ${CAP}M 上限，無法完成。`);
     if((player.isForeign||player.foreign)&&foreignCount(team)>=MAX_FOREIGN)return notify(`外籍球員已達 ${MAX_FOREIGN} 人上限。`);
     const signed=normalizePlayer({...player,team,starter:false,injury:0},team);
     state.rosters[team]=[...list,signed];state.freeAgents=state.freeAgents.filter(p=>p.id!==playerId);
@@ -72,10 +76,20 @@
     const pool=TEAMS.flatMap(team=>state.rosters[team]||[]).map(p=>normalizePlayer(p,p.team));
     for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
     const rosters=Object.fromEntries(TEAMS.map(team=>[team,[]]));
-    pool.forEach((p,i)=>{const team=TEAMS[i%TEAMS.length];rosters[team].push({...p,team,starter:false})});
+    const unsigned=[];
+    for(const player of pool){
+      const foreign=player.isForeign||player.foreign;
+      const eligible=TEAMS.filter(team=>rosters[team].length<MAX_ROSTER&&(!foreign||rosters[team].filter(p=>p.isForeign||p.foreign).length<MAX_FOREIGN));
+      if(!eligible.length){unsigned.push({...player,team:'自由球員',starter:false});continue}
+      eligible.sort((a,b)=>rosters[a].length-rosters[b].length);
+      const least=eligible.filter(team=>rosters[team].length===rosters[eligible[0]].length);
+      const team=least[Math.floor(Math.random()*least.length)];
+      rosters[team].push({...player,team,starter:false});
+    }
     TEAMS.forEach(team=>{rosters[team].sort((a,b)=>(Number(b.rating)||0)-(Number(a.rating)||0));rosters[team].slice(0,5).forEach(p=>p.starter=true)});
-    state.rosters=rosters;state.history.unshift({text:'球員已隨機重新分配至各隊，賽季進度及球員資料保留。',date:new Date().toLocaleDateString('zh-TW')});
-    if(saveState()){render();notify('球員已隨機分配。')}
+    state.rosters=rosters;state.freeAgents=[...(state.freeAgents||[]),...unsigned];
+    state.history.unshift({text:'球員已隨機重新分配至各隊；賽季進度及球員資料保留。',date:new Date().toLocaleDateString('zh-TW')});
+    if(saveState()){render();notify(unsigned.length?`隨機分隊完成，${unsigned.length} 名球員因名額限制留在自由市場。`:'已完成球員隨機分隊。')}
   }
   $('#randomize').addEventListener('click',()=>{if(confirm('確定重新隨機分配各隊球員？球員資料及賽季進度會保留。'))shuffleRosters()});
   $('#market').addEventListener('click',e=>{const button=e.target.closest('[data-sign]');if(button)signFreeAgent(button.dataset.sign)});
