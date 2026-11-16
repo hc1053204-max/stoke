@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1018"><title>賽程校正｜FRONT OFFICE</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;background:#09131d;color:#eef4fb}*{box-sizing:border-box}body{margin:0}.app{max-width:900px;margin:auto;padding:20px}.card{background:#14202d;border:1px solid #2b3d50;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:23px}.muted{color:#9cacc0}.notice{background:#19293a;border:1px solid #34495e;padding:12px;border-radius:9px;line-height:1.55}.btn{border:1px solid #edc36e;background:#edc36e;color:#201b11;border-radius:9px;padding:10px 15px;font:inherit;font-weight:bold;cursor:pointer}.entry{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #ffffff15}a{color:#edc36e}
+</style>
+</head>
+<body><main class="app">
+<header><h1>例行賽程校正</h1><a href="./">返回主遊戲</a></header>
+<section class="card"><p class="notice">此工具會根據每隊實際勝敗（勝場＋敗場）重算已賽場次，並模擬尚未完成的賽事，直到每隊完成 36 場。會保留現有勝敗紀錄並更新瀏覽器存檔；請先確認使用的是正確瀏覽器與遊戲存檔。</p><div id="status" class="muted">讀取中…</div><div id="rows"></div><button id="repair" class="btn">校正並完成剩餘例行賽</button></section>
+</main><script>
+(()=>{'use strict';
+const KEY='front-office-tpbl-optimized-v1',GAMES=36,TEAMS=['桃園台啤永豐雲豹','福爾摩沙台新夢想家','新北國王','新竹御嵿攻城獅','新北中信特攻','臺北台新戰神','高雄全家海神'];
+const $=s=>document.querySelector(s);let state;
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function standingsInit(){state.standings=state.standings||{};for(const t of TEAMS){const r=state.standings[t]||{};state.standings[t]={w:Math.max(0,Number(r.w)||0),l:Math.max(0,Number(r.l)||0),g:Math.max(0,Number(r.g)||0),ptsFor:Number(r.ptsFor)||0,ptsAgainst:Number(r.ptsAgainst)||0}}}
+function render(){const ready=!!state;$('#repair').disabled=!ready;if(!ready)return;$('#rows').innerHTML=TEAMS.map((t,i)=>{const r=state.standings[t];return `<div class="entry"><span>${i+1}. ${esc(t)}</span><b>${r.w}-${r.l}｜${r.w+r.l}/36 場</b></div>`}).join('');$('#status').textContent=`賽程游標 ${Number(state.gameIndex)||0} / ${(state.schedule||[]).length} 場`}
+function sim(fixture){const a=fixture.a,b=fixture.b,ra=state.standings[a],rb=state.standings[b];let oa=average(a),ob=average(b);let sa=Math.round(78+Math.random()*20+(oa-70)*.55),sb=Math.round(78+Math.random()*20+(ob-70)*.55);if(sa===sb)sa++;ra.g++;rb.g++;ra.ptsFor+=sa;ra.ptsAgainst+=sb;rb.ptsFor+=sb;rb.ptsAgainst+=sa;if(sa>sb){ra.w++;rb.l++}else{rb.w++;ra.l++}}
+function average(team){const list=state.rosters?.[team]||[];if(!list.length)return 70;return list.reduce((n,p)=>n+(Number(p.rating)||70),0)/list.length}
+function repair(){if(!state)return;for(const t of TEAMS){const r=state.standings[t];r.g=r.w+r.l}let schedule=Array.isArray(state.schedule)?state.schedule:[];let cursor=Math.max(0,Number(state.gameIndex)||0);for(let i=cursor;i<schedule.length;i++){const f=schedule[i];if(!TEAMS.includes(f?.a)||!TEAMS.includes(f?.b))continue;const ra=state.standings[f.a],rb=state.standings[f.b];if(ra.w+ra.l>=GAMES||rb.w+rb.l>=GAMES)continue;sim(f);state.gameIndex=i+1}
+let added=0;while(TEAMS.some(t=>state.standings[t].w+state.standings[t].l<GAMES)){
+ const need=TEAMS.filter(t=>state.standings[t].w+state.standings[t].l<GAMES).sort((a,b)=>(state.standings[a].w+state.standings[a].l)-(state.standings[b].w+state.standings[b].l));
+ if(need.length<2){$('#status').textContent='無法自動補齊：剩餘球隊場次需求不平衡，請匯出存檔後檢查。';break}
+ const a=need[0];let candidates=need.slice(1).sort((x,y)=>pairCount(a,x,schedule)-pairCount(a,y,schedule));const b=candidates[0];if(!b)break;const f={a,b,id:schedule.length+1};schedule.push(f);sim(f);state.gameIndex=schedule.length;added++;
+ }
+ state.schedule=schedule;for(const t of TEAMS)state.standings[t].g=state.standings[t].w+state.standings[t].l;
+ if(TEAMS.every(t=>state.standings[t].g===GAMES)){state.gameIndex=schedule.length;state.wins=state.standings[state.team]?.w||state.wins||0;state.losses=state.standings[state.team]?.l||state.losses||0;state.history=Array.isArray(state.history)?state.history:[];state.history.unshift({text:`賽程校正完成：七隊均完成 ${GAMES} 場例行賽；補賽 ${added} 場。`,date:new Date().toLocaleDateString('zh-TW')});try{localStorage.setItem(KEY,JSON.stringify(state));$('#status').textContent=`校正完成！七隊均為 36 場；補賽 ${added} 場。請回主遊戲重新整理。`;render()}catch{$('#status').textContent='瀏覽器儲存失敗，校正未能保存。'}}else{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}render()}}
+function pairCount(a,b,s){return s.filter(g=>(g.a===a&&g.b===b)||(g.a===b&&g.b===a)).length}
+try{state=JSON.parse(localStorage.getItem(KEY));if(!state?.rosters)throw Error('找不到本機遊戲存檔，請先開啟主遊戲並使用相同瀏覽器。');standingsInit();render()}catch(e){$('#status').textContent=e.message;$('#repair').disabled=true}
+$('#repair').addEventListener('click',()=>{if(confirm('依照現有勝敗保留已賽結果，並模擬尚未完成的比賽直到每隊 36 場？此操作會修改本機存檔。'))repair()});
+})();
+</script></body></html>
