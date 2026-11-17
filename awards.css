@@ -1,0 +1,4 @@
+/* Annual awards page */
+.award-winner{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #3b4c58;border-radius:10px;background:linear-gradient(120deg,#1b2b38,#111d27)}
+.award-winner strong{font-size:1.35rem;color:var(--gold)}
+.award-winner span{color:var(--muted)}
