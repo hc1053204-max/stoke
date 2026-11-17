@@ -1,4 +1,9 @@
-/* Annual awards page */
+/* Annual awards and championship reveal */
 .award-winner{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #3b4c58;border-radius:10px;background:linear-gradient(120deg,#1b2b38,#111d27)}
 .award-winner strong{font-size:1.35rem;color:var(--gold)}
 .award-winner span{color:var(--muted)}
+.ceremony-backdrop{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:rgba(1,7,12,.82);backdrop-filter:blur(7px);animation:ceremony-fade .25s ease both}
+.ceremony{position:relative;width:min(520px,100%);padding:36px 26px;text-align:center;border:1px solid #c69b50;border-radius:22px;background:radial-gradient(circle at 50% 0,#3b3426,#14202d 65%);box-shadow:0 25px 100px #000b;animation:ceremony-enter .65s cubic-bezier(.16,1,.3,1) both}
+.ceremony-trophy{font-size:4rem;animation:trophy-bounce 1.1s .2s both}.ceremony-title,.ceremony-kicker{color:var(--gold);letter-spacing:.08em}.ceremony-title{font-weight:800;font-size:1.1rem}.ceremony h2{margin:.35em 0;font-size:clamp(1.7rem,6vw,2.7rem);animation:reveal-text .75s .35s both}.ceremony-player{font-size:1.65rem;font-weight:800;color:#fff}.ceremony-close{position:absolute;top:10px;right:10px;border:0;background:transparent;font-size:1.7rem;padding:4px 10px}.ceremony-dismiss{margin-top:12px}.award-winner{animation:reveal-text .5s ease both}
+@keyframes ceremony-fade{from{opacity:0}to{opacity:1}}@keyframes ceremony-enter{from{opacity:0;transform:translateY(25px) scale(.93)}to{opacity:1;transform:none}}@keyframes trophy-bounce{0%{transform:scale(.3) rotate(-18deg);opacity:0}65%{transform:scale(1.2) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}@keyframes reveal-text{from{opacity:0;transform:translateY(12px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@media(prefers-reduced-motion:reduce){.ceremony-backdrop,.ceremony,.ceremony-trophy,.ceremony h2,.award-winner{animation-duration:.01ms!important;animation-delay:0ms!important}}
